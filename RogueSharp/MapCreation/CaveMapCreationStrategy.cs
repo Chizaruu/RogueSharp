@@ -118,7 +118,7 @@ namespace RogueSharp.MapCreation
             {
                CellularAutomataBigAreaAlgorithm();
             }
-            else
+            else if ( i >= _cutoffOfBigAreaFill )
             {
                CellularAutomataNearestNeighborsAlgorithm();
             }
@@ -194,8 +194,11 @@ namespace RogueSharp.MapCreation
          _map = updatedMap;
       }
 
-      private bool IsBorderCell( TCell cell ) => cell.X == 0 || cell.X == _map.Width - 1
+      private bool IsBorderCell( TCell cell )
+      {
+         return cell.X == 0 || cell.X == _map.Width - 1
                 || cell.Y == 0 || cell.Y == _map.Height - 1;
+      }
 
       private int CountWallsNear( TCell cell, int distance )
       {
@@ -231,9 +234,12 @@ namespace RogueSharp.MapCreation
                foreach ( TCell cell in tunnelCells )
                {
                   _map.SetCellProperties( cell.X, cell.Y, true, true );
-                  if ( previousCell != null && ( cell.X != previousCell.X || cell.Y != previousCell.Y ) )
+                  if ( previousCell != null )
                   {
-                     _map.SetCellProperties( cell.X + 1, cell.Y, true, true );
+                     if ( cell.X != previousCell.X || cell.Y != previousCell.Y )
+                     {
+                        _map.SetCellProperties( cell.X + 1, cell.Y, true, true );
+                     }
                   }
                   previousCell = cell;
                }
@@ -267,24 +273,27 @@ namespace RogueSharp.MapCreation
          return closestIndex;
       }
 
-      private static int DistanceBetween( MapSection startMapSection, MapSection destinationMapSection ) => Math.Abs( startMapSection.Bounds.Center.X - destinationMapSection.Bounds.Center.X ) + Math.Abs( startMapSection.Bounds.Center.Y - destinationMapSection.Bounds.Center.Y );
+      private static int DistanceBetween( MapSection startMapSection, MapSection destinationMapSection )
+      {
+         return Math.Abs( startMapSection.Bounds.Center.X - destinationMapSection.Bounds.Center.X ) + Math.Abs( startMapSection.Bounds.Center.Y - destinationMapSection.Bounds.Center.Y );
+      }
 
-      private sealed class FloodFillAnalyzer
+      private class FloodFillAnalyzer
       {
          private readonly TMap _map;
          private readonly List<MapSection> _mapSections;
 
          private readonly int[][] _offsets =
-         [
-            [0, -1], [-1, 0], [1, 0], [0, 1]
-         ];
+         {
+            new[] { 0, -1 }, new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, 1 }
+         };
 
          private readonly bool[][] _visited;
 
          public FloodFillAnalyzer( TMap map )
          {
             _map = map;
-            _mapSections = [];
+            _mapSections = new List<MapSection>();
             _visited = new bool[_map.Height][];
             for ( int i = 0; i < _visited.Length; i++ )
             {
@@ -309,8 +318,8 @@ namespace RogueSharp.MapCreation
 
          private MapSection Visit( TCell cell )
          {
-            Stack<TCell> stack = new( [] );
-            MapSection mapSection = new();
+            Stack<TCell> stack = new Stack<TCell>( new List<TCell>() );
+            MapSection mapSection = new MapSection();
             stack.Push( cell );
             while ( stack.Count != 0 )
             {
@@ -336,18 +345,18 @@ namespace RogueSharp.MapCreation
          {
             if ( x < 0 || y < 0 )
             {
-               return default;
+               return default( TCell );
             }
             if ( x >= _map.Width || y >= _map.Height )
             {
-               return default;
+               return default( TCell );
             }
             return _map.GetCell( x, y );
          }
 
-         private List<TCell> GetNeighbors( TCell cell )
+         private IEnumerable<TCell> GetNeighbors( TCell cell )
          {
-            List<TCell> neighbors = new( 8 );
+            List<TCell> neighbors = new List<TCell>( 8 );
             foreach ( int[] offset in _offsets )
             {
                TCell neighbor = GetCell( cell.X + offset[0], cell.Y + offset[1] );
@@ -362,20 +371,20 @@ namespace RogueSharp.MapCreation
          }
       }
 
-      private sealed class MapSection
+      private class MapSection
       {
          private int _top;
          private int _bottom;
          private int _right;
          private int _left;
 
-         public Rectangle Bounds => new( _left, _top, _right - _left + 1, _bottom - _top + 1 );
+         public Rectangle Bounds => new Rectangle( _left, _top, _right - _left + 1, _bottom - _top + 1 );
 
          public HashSet<TCell> Cells { get; private set; }
 
          public MapSection()
          {
-            Cells = [];
+            Cells = new HashSet<TCell>();
             _top = int.MaxValue;
             _left = int.MaxValue;
          }
@@ -406,7 +415,10 @@ namespace RogueSharp.MapCreation
             }
          }
 
-         public override string ToString() => $"Bounds: {Bounds}";
+         public override string ToString()
+         {
+            return $"Bounds: {Bounds}";
+         }
       }
    }
 }

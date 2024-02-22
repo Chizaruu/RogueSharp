@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RogueSharp.DiceNotation
@@ -8,7 +7,7 @@ namespace RogueSharp.DiceNotation
    /// <summary>
    /// The DiceParser class is used to parse a string into a DiceExpression
    /// </summary>
-   public partial class DiceParser : IDiceParser
+   public class DiceParser : IDiceParser
    {
       private readonly Regex _whitespacePattern;
 
@@ -17,7 +16,7 @@ namespace RogueSharp.DiceNotation
       /// </summary>
       public DiceParser()
       {
-         _whitespacePattern = MyRegex();
+         _whitespacePattern = new Regex( @"\s+" );
       }
 
       /// <summary>
@@ -34,7 +33,7 @@ namespace RogueSharp.DiceNotation
          }
 
          string cleanExpression = _whitespacePattern.Replace( expression.ToLower(), "" );
-         cleanExpression = cleanExpression.Replace( "+-", "-", StringComparison.CurrentCulture );
+         cleanExpression = cleanExpression.Replace( "+-", "-" );
 
          ParseValues parseValues = new ParseValues().Init();
 
@@ -64,15 +63,13 @@ namespace RogueSharp.DiceNotation
             }
             else if ( c == 'k' )
             {
-               StringBuilder chooseAccum = new();
-
+               string chooseAccum = "";
                while ( i + 1 < cleanExpression.Length && char.IsDigit( cleanExpression[i + 1] ) )
                {
-                  chooseAccum.Append( cleanExpression[i + 1] );
+                  chooseAccum += cleanExpression[i + 1];
                   ++i;
                }
-
-               parseValues.Choose = int.Parse( chooseAccum.ToString(), CultureInfo.CurrentCulture );
+               parseValues.Choose = int.Parse( chooseAccum, CultureInfo.CurrentCulture );
             }
             else if ( c == '+' )
             {
@@ -122,8 +119,5 @@ namespace RogueSharp.DiceNotation
             return this;
          }
       }
-
-      [GeneratedRegex( @"\s+" )]
-      private static partial Regex MyRegex();
    }
 }

@@ -25,7 +25,7 @@ namespace RogueSharp.Test
          IMap map = Map.Create( mapCreationStrategy );
 
          var fieldOfView = new FieldOfView( map );
-         System.Collections.ObjectModel.ReadOnlyCollection<Cell> visibleCells = fieldOfView.ComputeFov( 6, 1, 20, true );
+         var visibleCells = fieldOfView.ComputeFov( 6, 1, 20, true );
 
          // The field of view should be calculated as follows
          //
@@ -79,7 +79,7 @@ namespace RogueSharp.Test
 
          var fieldOfView = new FieldOfView( map );
          fieldOfView.ComputeFov( 6, 1, 20, true );
-         System.Collections.ObjectModel.ReadOnlyCollection<Cell> visibleCells = fieldOfView.AppendFov( 15, 1, 5, true );
+         var visibleCells = fieldOfView.AppendFov( 15, 1, 5, true );
 
          // The field of view should be calculated as follows
          //

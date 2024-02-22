@@ -12,7 +12,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void NumberOfVertices_AfterConstructingNewGraphWith10Vertices_WillBe10()
       {
-         Graph graph = new( 10 );
+         Graph graph = new Graph( 10 );
 
          int numberOfVertices = graph.NumberOfVertices;
 
@@ -22,7 +22,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void NumberOfEdges_AfterConstructingNewGraphWith10Vertices_WillBe0()
       {
-         Graph graph = new( 10 );
+         Graph graph = new Graph( 10 );
 
          int numberOfEdges = graph.NumberOfEdges;
 
@@ -32,7 +32,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void AddEdge_WhenGraphHasNoExistingEdges_GraphWillHave1Edge()
       {
-         Graph graph = new( 10 );
+         Graph graph = new Graph( 10 );
 
          graph.AddEdge( 1, 2 );
 
@@ -43,7 +43,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Adjacent_When2EdgesExistBetweenVertices_WillReturnBothAdjacentVertices()
       {
-         Graph graph = new( 10 );
+         Graph graph = new Graph( 10 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 3 );
 
@@ -57,7 +57,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void ToString_WhenGraphHas5VerticesAnd4Edges_WillReturnExpectedStringRepresentationOfGraph()
       {
-         Graph graph = new( 5 );
+         Graph graph = new Graph( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 2, 3 );

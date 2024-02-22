@@ -17,7 +17,7 @@ namespace RogueSharp.Algorithms
       public AStarShortestPath()
       {
       }
-
+      
       /// <summary>
       /// Construct a new class for computing the shortest path between two Cells on a Map using the A* algorithm
       /// </summary>
@@ -41,7 +41,7 @@ namespace RogueSharp.Algorithms
       public List<TCell> FindPath( TCell source, TCell destination, IMap<TCell> map )
       {
          // OPEN = the set of nodes to be evaluated
-         IndexMinPriorityQueue<PathNode> openNodes = new( map.Height * map.Width );
+         IndexMinPriorityQueue<PathNode> openNodes = new IndexMinPriorityQueue<PathNode>( map.Height * map.Width );
          // CLOSED = the set of nodes already evaluated
          bool[] isNodeClosed = new bool[map.Height * map.Width];
 
@@ -62,7 +62,7 @@ namespace RogueSharp.Algorithms
             // current = node in OPEN with the lowest f_cost
             if ( openNodes.Size < 1 )
             {
-               return [];
+               return null;
             }
             currentNode = openNodes.MinKey();
             // remove current from OPEN
@@ -83,7 +83,7 @@ namespace RogueSharp.Algorithms
             {
                int neighborIndex = map.IndexFor( neighbor );
                // if neighbor is not walkable or neighbor is in CLOSED
-               if ( !neighbor.IsWalkable || isNodeClosed[neighborIndex] )
+               if ( neighbor.IsWalkable == false || isNodeClosed[neighborIndex] )
                {
                   // skip to the next neighbor
                   continue;
@@ -109,7 +109,7 @@ namespace RogueSharp.Algorithms
                {
                   // set f_cost of neighbor
                   // set parent of neighbor to current
-                  PathNode neighborNode = new()
+                  PathNode neighborNode = new PathNode
                   {
                      DistanceFromStart = currentNode.DistanceFromStart + 1,
                      HeuristicDistanceFromEnd = CalculateDistance( source, destination, _diagonalCost ),
@@ -123,7 +123,8 @@ namespace RogueSharp.Algorithms
             }
          }
 
-         List<TCell> path = [map.GetCell( currentNode.X, currentNode.Y )];
+         List<TCell> path = new List<TCell>();
+         path.Add( map.GetCell( currentNode.X, currentNode.Y ) );
          while ( currentNode.Parent != null )
          {
             currentNode = currentNode.Parent;
@@ -157,7 +158,7 @@ namespace RogueSharp.Algorithms
          return ( dMin * diagonalCost.Value ) + ( dMax - dMin );
       }
 
-      private sealed class PathNode : IComparable<PathNode>
+      private class PathNode : IComparable<PathNode>
       {
          public int X
          {
@@ -208,28 +209,6 @@ namespace RogueSharp.Algorithms
 
             return Cost.CompareTo( other.Cost );
          }
-
-         public override bool Equals( object obj ) => obj is PathNode node &&
-                     X == node.X &&
-                     Y == node.Y &&
-                     DistanceFromStart == node.DistanceFromStart &&
-                     HeuristicDistanceFromEnd == node.HeuristicDistanceFromEnd &&
-                    EqualityComparer<PathNode>.Default.Equals( Parent, node.Parent ) &&
-                     Cost == node.Cost;
-
-         public override int GetHashCode() => HashCode.Combine( X, Y, DistanceFromStart, HeuristicDistanceFromEnd, Parent, Cost );
-
-         public static bool operator ==( PathNode left, PathNode right ) => EqualityComparer<PathNode>.Default.Equals( left, right );
-
-         public static bool operator !=( PathNode left, PathNode right ) => !( left == right );
-
-         public static bool operator <( PathNode left, PathNode right ) => left.CompareTo( right ) < 0;
-
-         public static bool operator <=( PathNode left, PathNode right ) => left.CompareTo( right ) <= 0;
-
-         public static bool operator >( PathNode left, PathNode right ) => left.CompareTo( right ) > 0;
-
-         public static bool operator >=( PathNode left, PathNode right ) => left.CompareTo( right ) >= 0;
       }
    }
 }

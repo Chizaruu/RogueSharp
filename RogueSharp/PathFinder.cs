@@ -79,7 +79,12 @@ namespace RogueSharp
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell</returns>
       public Path ShortestPath( ICell source, ICell destination )
       {
-         Path shortestPath = TryFindShortestPath( source, destination ) ?? throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
+         Path shortestPath = TryFindShortestPath( source, destination );
+
+         if ( shortestPath == null )
+         {
+            throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
+         }
 
          return shortestPath;
       }
@@ -93,9 +98,15 @@ namespace RogueSharp
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell. If no path is found null will be returned</returns>
       public Path TryFindShortestPath( ICell source, ICell destination )
       {
-         ArgumentNullException.ThrowIfNull( source );
+         if ( source == null )
+         {
+            throw new ArgumentNullException( nameof( source ) );
+         }
 
-         ArgumentNullException.ThrowIfNull( destination );
+         if ( destination == null )
+         {
+            throw new ArgumentNullException( nameof( destination ) );
+         }
 
          if ( !source.IsWalkable )
          {

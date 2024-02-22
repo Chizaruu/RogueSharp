@@ -4,12 +4,16 @@ namespace RogueSharp.MapCreation
    /// The StringDeserializeMapCreationStrategy creates a Map of the specified type from a string representation of the Map
    /// </summary>
    /// <typeparam name="TMap">The type of IMap that will be created</typeparam>
-   /// <remarks>
-   /// Constructs a new StringDeserializeMapCreationStrategy with the specified parameters
-   /// </remarks>
-   /// <param name="mapRepresentation">A string representation of the Map to be created</param>
-   public class StringDeserializeMapCreationStrategy<TMap>( string mapRepresentation ) : StringDeserializeMapCreationStrategy<TMap, Cell>( mapRepresentation ), IMapCreationStrategy<TMap> where TMap : IMap<Cell>, new()
+   public class StringDeserializeMapCreationStrategy<TMap> : StringDeserializeMapCreationStrategy<TMap,Cell>, IMapCreationStrategy<TMap> where TMap : IMap<Cell>, new()
    {
+      /// <summary>
+      /// Constructs a new StringDeserializeMapCreationStrategy with the specified parameters
+      /// </summary>
+      /// <param name="mapRepresentation">A string representation of the Map to be created</param>
+      public StringDeserializeMapCreationStrategy( string mapRepresentation )
+         : base( mapRepresentation )
+      {
+      }
    }
 
    /// <summary>
@@ -17,13 +21,18 @@ namespace RogueSharp.MapCreation
    /// </summary>
    /// <typeparam name="TMap">The type of IMap that will be created</typeparam>
    /// <typeparam name="TCell">The type of ICell that the Map will use</typeparam>
-   /// <remarks>
-   /// Constructs a new StringDeserializeMapCreationStrategy with the specified parameters
-   /// </remarks>
-   /// <param name="mapRepresentation">A string representation of the Map to be created</param>
-   public class StringDeserializeMapCreationStrategy<TMap, TCell>( string mapRepresentation ) : IMapCreationStrategy<TMap, TCell> where TMap : IMap<TCell>, new() where TCell : ICell
+   public class StringDeserializeMapCreationStrategy<TMap,TCell> : IMapCreationStrategy<TMap,TCell> where TMap : IMap<TCell>, new() where TCell : ICell
    {
-      private readonly string _mapRepresentation = mapRepresentation;
+      private readonly string _mapRepresentation;
+
+      /// <summary>
+      /// Constructs a new StringDeserializeMapCreationStrategy with the specified parameters
+      /// </summary>
+      /// <param name="mapRepresentation">A string representation of the Map to be created</param>
+      public StringDeserializeMapCreationStrategy( string mapRepresentation )
+      {
+         _mapRepresentation = mapRepresentation;
+      }
 
       /// <summary>
       /// Creates a Map of the specified type from a string representation of the Map
@@ -38,7 +47,7 @@ namespace RogueSharp.MapCreation
       /// <returns>An IMap of the specified type</returns>
       public TMap CreateMap()
       {
-         string[] lines = _mapRepresentation.Replace( " ", "", System.StringComparison.CurrentCulture ).Replace( "\r", "", System.StringComparison.CurrentCulture ).Split( '\n' );
+         string[] lines = _mapRepresentation.Replace( " ", "" ).Replace( "\r", "" ).Split( '\n' );
 
          int width = lines[0].Length;
          int height = lines.Length;

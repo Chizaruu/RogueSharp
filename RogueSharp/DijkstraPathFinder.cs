@@ -7,7 +7,7 @@ namespace RogueSharp
 {
    /// <summary>
    /// A class which can be used to find shortest path from a source to a destination in a Map.
-   /// This is only more efficient than the standard pathfinder when attempting to find multiple paths from a single source node.
+   /// This is only more efficient than the standard pathfinder when attempting to find multiple paths from a single source node. 
    /// </summary>
    public class DijkstraPathFinder : DijkstraPathFinder<Cell>
    {
@@ -39,7 +39,7 @@ namespace RogueSharp
 
    /// <summary>
    /// A class which can be used to find shortest path from a source to a destination in a Map
-   /// This is only more efficient than the standard pathfinder when attempting to find multiple paths from a single source node.
+   /// This is only more efficient than the standard pathfinder when attempting to find multiple paths from a single source node. 
    /// </summary>
    public class DijkstraPathFinder<TCell> where TCell : ICell
    {
@@ -125,7 +125,12 @@ namespace RogueSharp
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell</returns>
       public Path ShortestPath( TCell source, TCell destination )
       {
-         Path shortestPath = TryFindShortestPath( source, destination ) ?? throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
+         Path shortestPath = TryFindShortestPath( source, destination );
+
+         if ( shortestPath == null )
+         {
+            throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
+         }
 
          return shortestPath;
       }

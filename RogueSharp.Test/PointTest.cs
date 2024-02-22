@@ -11,7 +11,7 @@ namespace RogueSharp.Test
          int x = 10;
          int y = 5;
 
-         Point point = new( x, y );
+         Point point = new Point( x, y );
 
          Assert.AreEqual( x, point.X );
          Assert.AreEqual( y, point.Y );
@@ -22,7 +22,7 @@ namespace RogueSharp.Test
       {
          int value = 10;
 
-         Point point = new( value );
+         Point point = new Point( value );
 
          Assert.AreEqual( value, point.X );
          Assert.AreEqual( value, point.Y );
@@ -40,8 +40,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorPlus_TwoPoints_ReturnsNewPointWithAddedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = point1 + point2;
 
@@ -52,8 +52,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorMinus_TwoPoints_ReturnsNewPointWithSubtractedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = point1 - point2;
 
@@ -64,8 +64,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorStar_TwoPoints_ReturnsNewPointWithMultipliedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = point1 * point2;
 
@@ -76,8 +76,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorSlash_TwoPoints_ReturnsNewPointWithDividedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = point1 / point2;
 
@@ -88,8 +88,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorEqualsEquals_TwoPointsWithSameXAndYValues_ReturnsTrue()
       {
-         Point point1 = new( 5, 5 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 5 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsTrue( point1 == point2 );
       }
@@ -97,8 +97,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorEqualsEquals_TwoPointsWithDifferentXAndYValues_ReturnsFalse()
       {
-         Point point1 = new( 10, 10 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 10, 10 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsFalse( point1 == point2 );
       }
@@ -106,8 +106,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorEqualsEquals_TwoPointsWithDifferentXValues_ReturnsFalse()
       {
-         Point point1 = new( 10, 5 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 10, 5 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsFalse( point1 == point2 );
       }
@@ -115,8 +115,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorEqualsEquals_TwoPointsWithDifferentYValues_ReturnsFalse()
       {
-         Point point1 = new( 5, 10 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 10 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsFalse( point1 == point2 );
       }
@@ -124,8 +124,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorNotEquals_TwoPointsWithSameXAndYValues_ReturnsFalse()
       {
-         Point point1 = new( 5, 5 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 5 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsFalse( point1 != point2 );
       }
@@ -133,8 +133,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorNotEquals_TwoPointsWithDifferentXAndYValues_ReturnsTrue()
       {
-         Point point1 = new( 10, 10 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 10, 10 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsTrue( point1 != point2 );
       }
@@ -142,8 +142,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorNotEquals_TwoPointsWithDifferentXValues_ReturnsTrue()
       {
-         Point point1 = new( 10, 5 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 10, 5 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsTrue( point1 != point2 );
       }
@@ -151,8 +151,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void OperatorNotEquals_TwoPointsWithDifferentYValues_ReturnsTrue()
       {
-         Point point1 = new( 5, 10 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 10 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsTrue( point1 != point2 );
       }
@@ -160,8 +160,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Add_TwoPoints_ReturnsNewPointWithAddedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = Point.Add( point1, point2 );
 
@@ -172,8 +172,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Subtract_TwoPoints_ReturnsNewPointWithSubtractedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = Point.Subtract( point1, point2 );
 
@@ -184,8 +184,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Multiply_TwoPoints_ReturnsNewPointWithMultipliedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = Point.Multiply( point1, point2 );
 
@@ -196,8 +196,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Divide_TwoPoints_ReturnsNewPointWithDividedXAndYValues()
       {
-         Point point1 = new( 5, 15 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 15 );
+         Point point2 = new Point( 5, 5 );
 
          Point point3 = Point.Divide( point1, point2 );
 
@@ -208,8 +208,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Equals_TwoPointsWithSameXAndYValues_ReturnsTrue()
       {
-         Point point1 = new( 5, 5 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 5, 5 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsTrue( point1.Equals( point2 ) );
       }
@@ -217,8 +217,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Equals_TwoPointsWithDifferentXAndYValues_ReturnsFalse()
       {
-         Point point1 = new( 10, 10 );
-         Point point2 = new( 5, 5 );
+         Point point1 = new Point( 10, 10 );
+         Point point2 = new Point( 5, 5 );
 
          Assert.IsFalse( point1.Equals( point2 ) );
       }
@@ -226,7 +226,7 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Equals_TwoPointsOneCastAsObjectWithSameXAndYValuesOneCastAsObject_ReturnsTrue()
       {
-         Point point = new( 5, 5 );
+         Point point = new Point( 5, 5 );
          object obj = new Point( 5, 5 );
 
          Assert.IsTrue( point.Equals( obj ) );
@@ -235,7 +235,7 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Equals_TwoPointsOneCastAsObjectWithDifferentXAndYValues_ReturnsFalse()
       {
-         Point point = new( 10, 10 );
+         Point point = new Point( 10, 10 );
          object obj = new Point( 5, 5 );
 
          Assert.IsFalse( point.Equals( obj ) );
@@ -245,7 +245,7 @@ namespace RogueSharp.Test
       public void ToString_PointX5Y10_ExpectedString()
       {
          string expected = "{X:10 Y:5}";
-         Point point = new( 10, 5 );
+         Point point = new Point( 10, 5 );
 
          Assert.AreEqual( expected, point.ToString() );
       }
@@ -254,8 +254,8 @@ namespace RogueSharp.Test
       public void Distance_TwoPointsInHypotenuseOfPythagoreanTriangle_Returns5()
       {
          float expectedDistance = 5.0f;
-         Point point1 = new( 0, 3 );
-         Point point2 = new( 4, 0 );
+         Point point1 = new Point( 0, 3 );
+         Point point2 = new Point( 4, 0 );
 
          float distance = Point.Distance( point1, point2 );
 
@@ -266,8 +266,8 @@ namespace RogueSharp.Test
       public void Distance_TwoPoints_ExpectedFloat()
       {
          float expectedDistance = 7.615773f;
-         Point point1 = new( 3, 7 );
-         Point point2 = new( -4, 4 );
+         Point point1 = new Point( 3, 7 );
+         Point point2 = new Point( -4, 4 );
 
          float distance = Point.Distance( point1, point2 );
 
@@ -277,8 +277,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Negate_Point_ReturnsNewPointWithExpectedVectionInversion()
       {
-         Point expectedPoint = new( 3, -7 );
-         Point point1 = new( -3, 7 );
+         Point expectedPoint = new Point( 3, -7 );
+         Point point1 = new Point( -3, 7 );
 
          Point negatedPoint = Point.Negate( point1 );
 

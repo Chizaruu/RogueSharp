@@ -234,7 +234,7 @@ namespace RogueSharp
       /// <param name="yCenter">Y location of the center Cell with 0 as the top</param>
       /// <returns>IEnumerable of adjacent Cells which touch the center Cell</returns>
       IEnumerable<TCell> GetAdjacentCells( int xCenter, int yCenter );
-
+      
       /// <summary>
       /// Get an IEnumerable of adjacent Cells which touch the center Cell. Diagonal cells may optionally be included.
       /// </summary>
@@ -314,12 +314,10 @@ namespace RogueSharp
          /// Not set
          /// </summary>
          None = 0,
-
          /// <summary>
          /// A character could normally walk across the Cell without difficulty
          /// </summary>
          Walkable = 1,
-
          /// <summary>
          /// There is a clear line-of-sight through this Cell
          /// </summary>
