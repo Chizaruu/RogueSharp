@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RogueSharp.Algorithms
 {
@@ -106,20 +107,14 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="destinationVertex">The destination vertex to find a shortest path to</param>
       /// <returns>The length of a shortest path from the sourceVertex to the specified destinationVertex or double.PositiveInfinity if no such path exists</returns>
-      public double DistanceTo( int destinationVertex )
-      {
-         return _distanceTo[destinationVertex];
-      }
+      public double DistanceTo( int destinationVertex ) => _distanceTo[destinationVertex];
 
       /// <summary>
       /// Is there a path from the sourceVertex to the specified destinationVertex?
       /// </summary>
       /// <param name="destinationVertex">The destination vertex to see if there is a path to</param>
       /// <returns>True if there is a path from the sourceVertex to the specified destinationVertex, false otherwise</returns>
-      public bool HasPathTo( int destinationVertex )
-      {
-         return _distanceTo[destinationVertex] < double.PositiveInfinity;
-      }
+      public bool HasPathTo( int destinationVertex ) => _distanceTo[destinationVertex] < double.PositiveInfinity;
 
       /// <summary>
       /// Returns an IEnumerable of DirectedEdges representing a shortest path from the sourceVertex to the specified destinationVertex
@@ -130,7 +125,7 @@ namespace RogueSharp.Algorithms
       {
          if ( !HasPathTo( destinationVertex ) )
          {
-            return null;
+            return [];
          }
          var path = new Stack<DirectedEdge>();
          for ( DirectedEdge edge = _edgeTo[destinationVertex]; edge != null; edge = _edgeTo[edge.From] )

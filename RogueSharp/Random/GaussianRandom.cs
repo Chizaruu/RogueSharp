@@ -3,7 +3,7 @@
 namespace RogueSharp.Random
 {
    /// <summary>
-   /// A class implementing IRandom which uses the Box-Muller transformation 
+   /// A class implementing IRandom which uses the Box-Muller transformation
    /// to help generate Gaussian pseudo-random numbers
    /// </summary>
    /// <remarks>
@@ -21,7 +21,7 @@ namespace RogueSharp.Random
       private bool _useLast = true;
 
       /// <summary>
-      /// Constructs a new Gaussian pseudo-random number generator 
+      /// Constructs a new Gaussian pseudo-random number generator
       /// with a seed based on the number of milliseconds elapsed since the system started
       /// </summary>
       public GaussianRandom()
@@ -45,13 +45,10 @@ namespace RogueSharp.Random
       /// </summary>
       /// <param name="maxValue">Inclusive maximum result</param>
       /// <returns>Returns a Gaussian pseudo-random integer between 0 and the specified maxValue inclusive</returns>
-      public int Next( int maxValue )
-      {
-         return Next( 0, maxValue );
-      }
+      public int Next( int maxValue ) => Next( 0, maxValue );
 
       /// <summary>
-      /// Will approximately give the next random Gaussian integer between the specified min and max values inclusively 
+      /// Will approximately give the next random Gaussian integer between the specified min and max values inclusively
       /// so that min and max are at 3.5 deviations from the mean (half-way of min and max).
       /// </summary>
       /// <param name="minValue">Inclusive minimum result</param>
@@ -78,30 +75,27 @@ namespace RogueSharp.Random
       /// Saves the current state of the pseudo-random number generator
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were
       /// generated the first time after Save was called.
       /// </example>
       /// <returns>A RandomState class representing the current state of this pseudo-random number generator</returns>
-      public RandomState Save()
+      public RandomState Save() => new()
       {
-         return new RandomState
-         {
-            NumberGenerated = _numberGenerated,
-            Seed = new[]
-            {
+         NumberGenerated = _numberGenerated,
+         Seed =
+            [
                _seed
-            }
-         };
-      }
+            ]
+      };
 
       /// <summary>
       /// Restores the state of the pseudo-random number generator based on the specified state parameter
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were
@@ -118,14 +112,15 @@ namespace RogueSharp.Random
 
          _seed = state.Seed[0];
          _random = new System.Random( _seed );
-         _numberGenerated = default( long );
-         _nextGaussian = default( double );
+         _numberGenerated = default;
+         _nextGaussian = default;
          _useLast = true;
          for ( long i = 0; i < state.NumberGenerated; i++ )
          {
             Next( 1 );
          }
       }
+
       private double BoxMuller()
       {
          if ( _useLast )
@@ -151,9 +146,7 @@ namespace RogueSharp.Random
             return v1 * s;
          }
       }
-      private double BoxMuller( double mean, double standardDeviation )
-      {
-         return mean + ( BoxMuller() * standardDeviation );
-      }
+
+      private double BoxMuller( double mean, double standardDeviation ) => mean + ( BoxMuller() * standardDeviation );
    }
 }

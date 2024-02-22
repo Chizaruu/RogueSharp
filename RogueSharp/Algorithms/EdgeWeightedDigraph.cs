@@ -60,10 +60,7 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="vertex">The vertex to find incident DirectedEdges from</param>
       /// <returns>IEnumerable of the DirectedEdges incident from the specified vertex</returns>
-      public IEnumerable<DirectedEdge> Adjacent( int vertex )
-      {
-         return _adjacent[vertex];
-      }
+      public IEnumerable<DirectedEdge> Adjacent( int vertex ) => _adjacent[vertex];
 
       /// <summary>
       /// Returns an IEnumerable of all directed edges in the edge-weighted digraph
@@ -86,10 +83,7 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="vertex">The vertex to find find the out-degree of</param>
       /// <returns>The number of directed edges incident from the specified vertex</returns>
-      public int OutDegree( int vertex )
-      {
-         return _adjacent[vertex].Count;
-      }
+      public int OutDegree( int vertex ) => _adjacent[vertex].Count;
 
       /// <summary>
       /// Returns a string that represents the current edge-weighted digraph

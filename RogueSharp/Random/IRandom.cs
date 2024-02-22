@@ -6,7 +6,7 @@
    /// a mock implementation that returns known and expected values
    /// </summary>
    /// <remarks>
-   /// Pseudo-random number generators are devices that produces a sequence of numbers 
+   /// Pseudo-random number generators are devices that produces a sequence of numbers
    /// that meet certain statistical requirements for randomness
    /// </remarks>
    public interface IRandom
@@ -30,7 +30,7 @@
       /// Saves the current state of the pseudo-random number generator
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were
@@ -43,7 +43,7 @@
       /// Restores the state of the pseudo-random number generator based on the specified state parameter
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were
@@ -54,7 +54,7 @@
    }
 
    /// <summary>
-   /// A class representing the state of a pseudo-random number generation algorithm 
+   /// A class representing the state of a pseudo-random number generation algorithm
    /// at a point in time. This POCO (Plain Old C# Object) can be easily serialized and deserialized
    /// </summary>
    public class RandomState

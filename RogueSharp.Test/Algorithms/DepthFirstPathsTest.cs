@@ -9,21 +9,18 @@ namespace RogueSharp.Test.Algorithms
    public class DepthFirstPathsTest
    {
       [TestMethod]
-      public void Constructor_WhenGraphIsNull_WillThrowArgumentException()
-      {
-         Assert.ThrowsException<ArgumentException>( () => new DepthFirstPaths( null, 3 ) );
-      }
+      public void Constructor_WhenGraphIsNull_WillThrowArgumentException() => Assert.ThrowsException<ArgumentException>( () => new DepthFirstPaths( null, 3 ) );
 
       [TestMethod]
       public void HasPathTo_WhenPathExistsBetweenVertices_WillReturnTrue()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
          graph.AddEdge( 2, 3 );
          graph.AddEdge( 3, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 3 );
+         DepthFirstPaths paths = new( graph, 3 );
 
          Assert.IsTrue( paths.HasPathTo( 0 ) );
       }
@@ -31,11 +28,11 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void HasPathTo_WhenPathDoesNotExistBetweenVertices_WillReturnFalse()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 0 );
+         DepthFirstPaths paths = new( graph, 0 );
 
          Assert.IsFalse( paths.HasPathTo( 3 ) );
       }
@@ -43,13 +40,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void PathTo_WhenPathExistsBetweenVertices_WillReturnVerticesInPath()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
          graph.AddEdge( 2, 3 );
          graph.AddEdge( 3, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 3 );
+         DepthFirstPaths paths = new( graph, 3 );
 
          int[] pathVertices = paths.PathTo( 0 ).ToArray();
 
@@ -62,11 +59,11 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void PathTo_WhenPathDoesNotExistBetweenVertices_WillReturnNull()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 0 );
+         DepthFirstPaths paths = new( graph, 0 );
 
          Assert.IsNull( paths.PathTo( 3 ) );
       }

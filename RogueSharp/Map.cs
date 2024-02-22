@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using RogueSharp.MapCreation;
 
@@ -138,10 +139,7 @@ namespace RogueSharp
       /// </remarks>
       /// <param name="width">How many Cells wide the Map will be</param>
       /// <param name="height">How many Cells tall the Map will be</param>
-      public virtual void Initialize( int width, int height )
-      {
-         Init( width, height );
-      }
+      public virtual void Initialize( int width, int height ) => Init( width, height );
 
       private void Init( int width, int height )
       {
@@ -162,23 +160,20 @@ namespace RogueSharp
       /// <summary>
       /// Get the transparency of the Cell i.e. if line of sight would be blocked by this Cell
       /// </summary>
-      /// <example>      
-      /// A Cell representing an empty stone floor would be transparent 
+      /// <example>
+      /// A Cell representing an empty stone floor would be transparent
       /// A Cell representing a glass wall could be transparent (even though it may not be walkable)
       /// A Cell representing a solid stone wall would not be transparent
       /// </example>
       /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to check, starting with 0 as the top</param>
       /// <returns>True if line-of-sight is not blocked by this Cell, false otherwise</returns>
-      public bool IsTransparent( int x, int y )
-      {
-         return _cells[x, y].IsTransparent;
-      }
+      public bool IsTransparent( int x, int y ) => _cells[x, y].IsTransparent;
 
       /// <summary>
       /// Get the walkability of the Cell i.e. if a character could normally move across the Cell without difficulty
       /// </summary>
-      /// <example>      
+      /// <example>
       /// A Cell representing an empty stone floor would be walkable
       /// A Cell representing a glass wall may not be walkable (even though it could be transparent)
       /// A Cell representing a solid stone wall would not be walkable
@@ -186,10 +181,7 @@ namespace RogueSharp
       /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to check, starting with 0 as the top</param>
       /// <returns>True if a character could move across this Cell, false otherwise</returns>
-      public bool IsWalkable( int x, int y )
-      {
-         return _cells[x, y].IsWalkable;
-      }
+      public bool IsWalkable( int x, int y ) => _cells[x, y].IsWalkable;
 
       /// <summary>
       /// Set the properties of an unexplored Cell to the specified values
@@ -207,10 +199,7 @@ namespace RogueSharp
       /// <summary>
       /// Sets the properties of all Cells in the Map to be transparent and walkable
       /// </summary>
-      public virtual void Clear()
-      {
-         Clear( true, true );
-      }
+      public virtual void Clear() => Clear( true, true );
 
       /// <summary>
       /// Sets the properties of all Cells in the Map to the specified values
@@ -247,10 +236,7 @@ namespace RogueSharp
       /// Copies the Cell properties of a smaller source Map into this destination Map at location (0,0)
       /// </summary>
       /// <param name="sourceMap">An IMap which must be of smaller size and able to fit in this destination Map at the specified location</param>
-      public virtual void Copy( IMap<TCell> sourceMap )
-      {
-         Copy( sourceMap, 0, 0 );
-      }
+      public virtual void Copy( IMap<TCell> sourceMap ) => Copy( sourceMap, 0, 0 );
 
       /// <summary>
       /// Copies the Cell properties of a smaller source Map into this destination Map at the specified location
@@ -330,26 +316,24 @@ namespace RogueSharp
             int e2 = 2 * err;
             if ( e2 > -dy )
             {
-               err = err - dy;
-               xOrigin = xOrigin + sx;
+               err -= dy;
+               xOrigin += sx;
             }
             if ( e2 < dx )
             {
-               err = err + dx;
-               yOrigin = yOrigin + sy;
+               err += dx;
+               yOrigin += sy;
             }
          }
       }
 
-      private int ClampX( int x )
-      {
-         return ( x < 0 ) ? 0 : ( x > Width - 1 ) ? Width - 1 : x;
-      }
+      private int ClampX( int x ) => ( x < 0 ) ? 0 : ClampXAlt( x );
 
-      private int ClampY( int y )
-      {
-         return ( y < 0 ) ? 0 : ( y > Height - 1 ) ? Height - 1 : y;
-      }
+      private int ClampXAlt( int x ) => ( x > Width - 1 ) ? Width - 1 : x;
+
+      private int ClampY( int y ) => ( y < 0 ) ? 0 : ClampYAlt( y );
+
+      private int ClampYAlt( int y ) => ( y > Height - 1 ) ? Height - 1 : y;
 
       /// <summary>
       /// Get an IEnumerable of Cells in a circle around the center Cell up to the specified radius using Bresenham's midpoint circle algorithm
@@ -369,33 +353,32 @@ namespace RogueSharp
 
          do
          {
-            foreach ( TCell cell in GetCellsAlongLine( xCenter + x, yCenter + y, xCenter - x, yCenter + y ) )
+            foreach ( TCell cell in from TCell cell in GetCellsAlongLine( xCenter + x, yCenter + y, xCenter - x, yCenter + y )
+                                    where AddToHashSet( discovered, cell )
+                                    select cell )
             {
-               if ( AddToHashSet( discovered, cell ) )
-               {
-                  yield return cell;
-               }
+               yield return cell;
             }
-            foreach ( TCell cell in GetCellsAlongLine( xCenter - x, yCenter - y, xCenter + x, yCenter - y ) )
+
+            foreach ( TCell cell in from TCell cell in GetCellsAlongLine( xCenter - x, yCenter - y, xCenter + x, yCenter - y )
+                                    where AddToHashSet( discovered, cell )
+                                    select cell )
             {
-               if ( AddToHashSet( discovered, cell ) )
-               {
-                  yield return cell;
-               }
+               yield return cell;
             }
-            foreach ( TCell cell in GetCellsAlongLine( xCenter + y, yCenter + x, xCenter - y, yCenter + x ) )
+
+            foreach ( TCell cell in from TCell cell in GetCellsAlongLine( xCenter + y, yCenter + x, xCenter - y, yCenter + x )
+                                    where AddToHashSet( discovered, cell )
+                                    select cell )
             {
-               if ( AddToHashSet( discovered, cell ) )
-               {
-                  yield return cell;
-               }
+               yield return cell;
             }
-            foreach ( TCell cell in GetCellsAlongLine( xCenter + y, yCenter - x, xCenter - y, yCenter - x ) )
+
+            foreach ( TCell cell in from TCell cell in GetCellsAlongLine( xCenter + y, yCenter - x, xCenter - y, yCenter - x )
+                                    where AddToHashSet( discovered, cell )
+                                    select cell )
             {
-               if ( AddToHashSet( discovered, cell ) )
-               {
-                  yield return cell;
-               }
+               yield return cell;
             }
 
             if ( d < 0 )
@@ -623,7 +606,7 @@ namespace RogueSharp
          int xMax = Math.Min( Width - 1, xCenter + distance );
          int yMin = Math.Max( 0, yCenter - distance );
          int yMax = Math.Min( Height - 1, yCenter + distance );
-         List<TCell> borderCells = new List<TCell>();
+         List<TCell> borderCells = [];
 
          for ( int x = xMin; x <= xMax; x++ )
          {
@@ -680,10 +663,7 @@ namespace RogueSharp
       /// <param name="xCenter">X location of the center Cell with 0 as the farthest left</param>
       /// <param name="yCenter">Y location of the center Cell with 0 as the top</param>
       /// <returns>IEnumerable of adjacent Cells which touch the center Cell</returns>
-      public IEnumerable<TCell> GetAdjacentCells( int xCenter, int yCenter )
-      {
-         return GetAdjacentCells( xCenter, yCenter, false );
-      }
+      public IEnumerable<TCell> GetAdjacentCells( int xCenter, int yCenter ) => GetAdjacentCells( xCenter, yCenter, false );
 
       /// <summary>
       /// Get an IEnumerable of adjacent Cells which touch the center Cell. Diagonal cells may optionally be included.
@@ -749,10 +729,7 @@ namespace RogueSharp
       /// <param name="x">X location of the Cell to get starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to get, starting with 0 as the top</param>
       /// <returns>Cell at the specified location</returns>
-      public TCell GetCell( int x, int y )
-      {
-         return _cells[x, y];
-      }
+      public TCell GetCell( int x, int y ) => _cells[x, y];
 
       /// <summary>
       /// Provides a simple visual representation of the map using the following symbols:
@@ -849,10 +826,7 @@ namespace RogueSharp
       /// <param name="x">X location of the Cell index to get starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell index to get, starting with 0 as the top</param>
       /// <returns>An index for the Cell at the specified location useful if storing Cells in a single dimensional array</returns>
-      public int IndexFor( int x, int y )
-      {
-         return ( y * Width ) + x;
-      }
+      public int IndexFor( int x, int y ) => ( y * Width ) + x;
 
       /// <summary>
       /// Get the single dimensional array index for the specified Cell
@@ -887,9 +861,6 @@ namespace RogueSharp
          return hashSet.Add( IndexFor( cell ) );
       }
 
-      private bool AddToHashSet( HashSet<int> hashSet, TCell cell )
-      {
-         return hashSet.Add( IndexFor( cell ) );
-      }
+      private bool AddToHashSet( HashSet<int> hashSet, TCell cell ) => hashSet.Add( IndexFor( cell ) );
    }
 }

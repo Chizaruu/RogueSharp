@@ -8,16 +8,12 @@ namespace RogueSharp
    /// A class for performing field-of-view calculations to determine what is observable in a Map from a given Cell within a given light radius
    /// </summary>
    /// <seealso href="https://sites.google.com/site/jicenospam/visibilitydetermination">Based on the visibility determination algorithm described here</seealso>
-   public class FieldOfView : FieldOfView<Cell>
+   /// <remarks>
+   /// Constructs a new FieldOfView class for the specified Map
+   /// </remarks>
+   /// <param name="map">The Map that this FieldOfView class will use to perform its field-of-view calculations</param>
+   public class FieldOfView( IMap<Cell> map ) : FieldOfView<Cell>( map )
    {
-      /// <summary>
-      /// Constructs a new FieldOfView class for the specified Map
-      /// </summary>
-      /// <param name="map">The Map that this FieldOfView class will use to perform its field-of-view calculations</param>
-      public FieldOfView( IMap<Cell> map )
-         : base( map )
-      {
-      }
    }
 
    /// <summary>
@@ -36,7 +32,7 @@ namespace RogueSharp
       public FieldOfView( IMap<TCell> map )
       {
          _map = map;
-         _inFov = new HashSet<int>();
+         _inFov = [];
       }
 
       internal FieldOfView( IMap<TCell> map, HashSet<int> inFov )
@@ -73,10 +69,7 @@ namespace RogueSharp
       /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to check, starting with 0 as the top</param>
       /// <returns>True if the Cell is in the currently computed field-of-view, false otherwise</returns>
-      public bool IsInFov( int x, int y )
-      {
-         return _inFov.Contains( _map.IndexFor( x, y ) );
-      }
+      public bool IsInFov( int x, int y ) => _inFov.Contains( _map.IndexFor( x, y ) );
 
       /// <summary>
       /// Performs a field-of-view calculation with the specified parameters.
@@ -176,10 +169,7 @@ namespace RogueSharp
          return new ReadOnlyCollection<TCell>( cells );
       }
 
-      private void ClearFov()
-      {
-         _inFov.Clear();
-      }
+      private void ClearFov() => _inFov.Clear();
 
       private void PostProcessFovQuadrant( int x, int y, Quadrant quadrant )
       {
@@ -190,37 +180,34 @@ namespace RogueSharp
          switch ( quadrant )
          {
             case Quadrant.NE:
-            {
-               y1 = y + 1;
-               x2 = x - 1;
-               break;
-            }
+               {
+                  y1 = y + 1;
+                  x2 = x - 1;
+                  break;
+               }
             case Quadrant.SE:
-            {
-               y1 = y - 1;
-               x2 = x - 1;
-               break;
-            }
+               {
+                  y1 = y - 1;
+                  x2 = x - 1;
+                  break;
+               }
             case Quadrant.SW:
-            {
-               y1 = y - 1;
-               x2 = x + 1;
-               break;
-            }
+               {
+                  y1 = y - 1;
+                  x2 = x + 1;
+                  break;
+               }
             case Quadrant.NW:
-            {
-               y1 = y + 1;
-               x2 = x + 1;
-               break;
-            }
+               {
+                  y1 = y + 1;
+                  x2 = x + 1;
+                  break;
+               }
          }
-         if ( !IsInFov( x, y ) && !_map.IsTransparent( x, y ) )
+         if ( !IsInFov( x, y ) && !_map.IsTransparent( x, y ) && ( ( _map.IsTransparent( x1, y1 ) && IsInFov( x1, y1 ) ) || ( _map.IsTransparent( x2, y2 ) && IsInFov( x2, y2 ) )
+                 || ( _map.IsTransparent( x2, y1 ) && IsInFov( x2, y1 ) ) ) )
          {
-            if ( ( _map.IsTransparent( x1, y1 ) && IsInFov( x1, y1 ) ) || ( _map.IsTransparent( x2, y2 ) && IsInFov( x2, y2 ) )
-                 || ( _map.IsTransparent( x2, y1 ) && IsInFov( x2, y1 ) ) )
-            {
-               _inFov.Add( _map.IndexFor( x, y ) );
-            }
+            _inFov.Add( _map.IndexFor( x, y ) );
          }
       }
 

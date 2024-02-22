@@ -9,7 +9,7 @@ using RogueSharp.MapCreation;
 namespace RogueSharp.Test
 {
    [TestClass]
-   public class GoalMapTest
+   public partial class GoalMapTest
    {
       [TestMethod]
       [ExpectedException( typeof( ArgumentNullException ) )]
@@ -17,7 +17,7 @@ namespace RogueSharp.Test
       {
          IMap map = null;
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
       }
 
       [TestMethod]
@@ -32,7 +32,7 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
          ReadOnlyCollection<Path> paths = goalMap.FindPaths( 3, 4 );
@@ -61,10 +61,10 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
-         List<Point> obstacles = new List<Point> { new Point( 1, 2 ), new Point( 3, 2 ) };
+         List<Point> obstacles = [new Point( 1, 2 ), new Point( 3, 2 )];
          goalMap.AddObstacles( obstacles );
          Path path = goalMap.FindPath( 3, 4 );
 
@@ -86,7 +86,7 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
          goalMap.ClearGoals();
@@ -106,7 +106,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 6, 1, 0 );
 
          goalMap.FindPath( 1, 1 );
@@ -124,7 +124,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
 
          goalMap.FindPath( 0, 1 );
@@ -142,7 +142,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 0, 1, 0 );
 
          goalMap.FindPath( 1, 1 );
@@ -160,7 +160,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 7, 1, 0 );
 
          goalMap.FindPath( 1, 1 );
@@ -207,7 +207,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 51, 31, 0 );
          goalMap.AddGoal( 51, 33, 0 );
          string expectedPath = ".....s.....s.......s...........s.....s..........s....s.......s...........s...s....s..............s.....s...s......s...s....s..s....s.....s..............s......";
@@ -263,7 +263,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map, true );
+         GoalMap goalMap = new( map, true );
          goalMap.AddGoal( 51, 31, 0 );
          goalMap.AddGoal( 51, 33, 0 );
          string expectedPath = "...s...s.....s........s.....s.......s...s......s.......s...s...s...........s...s..s.....s.s...s.s..s....s..........s.....";
@@ -291,7 +291,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 2, 2, 0 );
          goalMap.AddObstacle( 2, 1 );
 
@@ -317,7 +317,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 2, 2, 0 );
          goalMap.AddObstacle( 2, 1 );
          goalMap.AddObstacle( 1, 2 );
@@ -337,7 +337,7 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
          ReadOnlyCollection<Path> paths = goalMap.TryFindPaths( 3, 4 );
@@ -366,10 +366,10 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
-         List<Point> obstacles = new List<Point> { new Point( 1, 2 ), new Point( 3, 2 ) };
+         List<Point> obstacles = [new Point( 1, 2 ), new Point( 3, 2 )];
          goalMap.AddObstacles( obstacles );
          Path path = goalMap.TryFindPath( 3, 4 );
 
@@ -390,7 +390,7 @@ namespace RogueSharp.Test
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
 
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
          goalMap.AddGoal( 6, 1, 0 );
          goalMap.ClearGoals();
@@ -411,10 +411,10 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 6, 1, 0 );
 
-         var paths = goalMap.TryFindPath( 1, 1 );
+         Path paths = goalMap.TryFindPath( 1, 1 );
 
          Assert.AreEqual( null, paths );
       }
@@ -430,7 +430,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 1, 1, 0 );
 
          Path path = goalMap.TryFindPath( 0, 1 );
@@ -449,7 +449,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 0, 1, 0 );
 
          Path path = goalMap.TryFindPath( 1, 1 );
@@ -468,7 +468,7 @@ namespace RogueSharp.Test
                                       ########";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 7, 1, 0 );
 
          Path path = goalMap.TryFindPath( 1, 1 );
@@ -517,7 +517,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 51, 31, 0 );
          goalMap.AddGoal( 51, 33, 0 );
          string expectedPath = ".....s.....s.......s...........s.....s..........s....s.......s...........s...s....s..............s.....s...s......s...s....s..s....s.....s..............s......";
@@ -573,7 +573,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map, true );
+         GoalMap goalMap = new( map, true );
          goalMap.AddGoal( 51, 31, 0 );
          goalMap.AddGoal( 51, 33, 0 );
          string expectedPath = "...s...s.....s........s.....s.......s...s......s.......s...s...s...........s...s..s.....s.s...s.s..s....s..........s.....";
@@ -601,7 +601,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 2, 2, 0 );
          goalMap.AddObstacle( 2, 1 );
 
@@ -626,7 +626,7 @@ namespace RogueSharp.Test
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
          IMap map = Map.Create( mapCreationStrategy );
-         GoalMap goalMap = new GoalMap( map );
+         GoalMap goalMap = new( map );
          goalMap.AddGoal( 2, 2, 0 );
          goalMap.AddObstacle( 2, 1 );
          goalMap.AddObstacle( 1, 1 );
@@ -636,9 +636,9 @@ namespace RogueSharp.Test
          Assert.AreEqual( null, path );
       }
 
-      private static string RemoveWhiteSpace( string source )
-      {
-         return Regex.Replace( source, @"\s+", string.Empty );
-      }
+      private static string RemoveWhiteSpace( string source ) => MyRegex().Replace( source, string.Empty );
+
+      [GeneratedRegex( @"\s+" )]
+      private static partial Regex MyRegex();
    }
 }

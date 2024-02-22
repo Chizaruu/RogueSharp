@@ -51,14 +51,11 @@ namespace RogueSharp.Algorithms
       }
 
       /// <summary>
-      /// Gets an IEnumerable of the vertices adjacent to the specified vertex 
+      /// Gets an IEnumerable of the vertices adjacent to the specified vertex
       /// </summary>
       /// <param name="vertex">The vertex from which adjacent vertices will be located</param>
       /// <returns>IEnumerable of the vertices adjacent to the specified vertex </returns>
-      public IEnumerable<int> Adjacent( int vertex )
-      {
-         return _adjacent[vertex];
-      }
+      public IEnumerable<int> Adjacent( int vertex ) => _adjacent[vertex];
 
       /// <summary>
       /// Returns a string that represents this Graph

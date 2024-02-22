@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RogueSharp.Algorithms
 {
    /// <summary>
-   /// The DepthFirstPaths class represents a data type for finding paths from a source vertex to 
+   /// The DepthFirstPaths class represents a data type for finding paths from a source vertex to
    /// every other vertex in an undirected graph using depth-first search.
    /// </summary>
    /// <seealso href="http://algs4.cs.princeton.edu/41undirected/DepthFirstPaths.java.html">DepthFirstPaths class from Princeton University's Java Algorithms</seealso>
@@ -51,10 +51,7 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="destinationVertex">The destination vertex</param>
       /// <returns>True if there is a path between the sourceVertex and the specified destinationVertex, false otherwise</returns>
-      public bool HasPathTo( int destinationVertex )
-      {
-         return _marked[destinationVertex];
-      }
+      public bool HasPathTo( int destinationVertex ) => _marked[destinationVertex];
 
       /// <summary>
       /// Returns a path between the sourceVertex and the specified destinationVertex or null if no such path exists
@@ -65,7 +62,7 @@ namespace RogueSharp.Algorithms
       {
          if ( !HasPathTo( destinationVertex ) )
          {
-            return null;
+            return [];
          }
          var path = new Stack<int>();
          for ( int x = destinationVertex; x != _sourceVertex; x = _edgeTo[x] )
