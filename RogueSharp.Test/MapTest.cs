@@ -11,7 +11,7 @@ using RogueSharp.Random;
 namespace RogueSharp.Test
 {
    [TestClass]
-   public class MapTest
+   public partial class MapTest
    {
       [TestMethod]
       public void Constructor_MapCreatedWithWidth40Height20_ExpectedWidthAndHeight()
@@ -19,7 +19,7 @@ namespace RogueSharp.Test
          int expectedWidth = 40;
          int expectedHeight = 20;
 
-         Map map = new Map( expectedWidth, expectedHeight );
+         Map map = new( expectedWidth, expectedHeight );
 
          Assert.AreEqual( expectedWidth, map.Width );
          Assert.AreEqual( expectedHeight, map.Height );
@@ -28,7 +28,7 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Clear_IsTransparentTrueIsWalkableFalse_AllCellsHaveExpectedValues()
       {
-         Map map = new Map( 10, 10 );
+         Map map = new( 10, 10 );
 
          map.Clear( true, false );
 
@@ -67,7 +67,7 @@ namespace RogueSharp.Test
                                               ####.#....#.#.#######.#.#...######################
                                               ##################################################";
 
-         IMap actualMap = Map.Create( mapCreationStrategy );
+         Map actualMap = Map.Create( mapCreationStrategy );
          Trace.Write( actualMap );
 
          Assert.AreEqual( expectedWidth, actualMap.Width );
@@ -122,7 +122,7 @@ namespace RogueSharp.Test
          int expectedHeight = 20;
          IMapCreationStrategy<Map> mapCreationStrategy = new BorderOnlyMapCreationStrategy<Map>( expectedWidth, expectedHeight );
 
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          Trace.Write( map );
 
          Assert.AreEqual( expectedWidth, map.Width );
@@ -163,7 +163,7 @@ namespace RogueSharp.Test
                                               ##############..#
                                               #################";
 
-         IMap actualMap = Map.Create( mapCreationStrategy );
+         Map actualMap = Map.Create( mapCreationStrategy );
          Trace.Write( actualMap );
 
          Assert.AreEqual( expectedWidth, actualMap.Width );
@@ -180,7 +180,7 @@ namespace RogueSharp.Test
                                               ####";
 
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( expectedMapRepresentation );
-         IMap actualMap = Map.Create( mapCreationStrategy );
+         Map actualMap = Map.Create( mapCreationStrategy );
 
          Assert.AreEqual( RemoveWhiteSpace( expectedMapRepresentation ), RemoveWhiteSpace( actualMap.ToString() ) );
       }
@@ -193,9 +193,9 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap originalMap = Map.Create( mapCreationStrategy );
+         Map originalMap = Map.Create( mapCreationStrategy );
 
-         IMap clonedMap = originalMap.Clone<Map>();
+         Map clonedMap = originalMap.Clone<Map>();
 
          Assert.AreNotEqual( originalMap, clonedMap );
          Assert.AreEqual( RemoveWhiteSpace( originalMap.ToString() ), RemoveWhiteSpace( clonedMap.ToString() ) );
@@ -204,8 +204,8 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Copy_SourceMapWiderThanDestinationMap_ThrowsArgumentException()
       {
-         Map sourceMap = new Map( 10, 10 );
-         Map destinationMap = new Map( 5, 10 );
+         Map sourceMap = new( 10, 10 );
+         Map destinationMap = new( 5, 10 );
 
          try
          {
@@ -223,7 +223,7 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Copy_SourceMapPlusTopLargerThanDestinationMap_ThrowsArgumentException()
       {
-         IMap sourceMap = new Map( 10, 10 );
+         Map sourceMap = new( 10, 10 );
          IMap destinationMap = new Map( 10, 10 );
 
          try
@@ -250,7 +250,7 @@ namespace RogueSharp.Test
                                                  #so#
                                                  ####";
          IMapCreationStrategy<Map> destinationMapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( destinationMapRepresentation );
-         IMap destinationMap = Map.Create( destinationMapCreationStrategy );
+         Map destinationMap = Map.Create( destinationMapCreationStrategy );
          string expectedRepresentationAfterCopy = @"####
                                                     #..#
                                                     #..#
@@ -269,10 +269,10 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedPath = "#.s#";
 
-         StringBuilder actualPath = new StringBuilder();
+         StringBuilder actualPath = new();
          foreach ( ICell cell in map.GetCellsAlongLine( 3, 0, 0, 3 ) )
          {
             actualPath.Append( cell.ToString() );
@@ -289,10 +289,10 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedPath = "#o.#";
 
-         StringBuilder actualPath = new StringBuilder();
+         StringBuilder actualPath = new();
          foreach ( ICell cell in map.GetCellsAlongLine( 3, 3, 0, 0 ) )
          {
             actualPath.Append( cell.ToString() );
@@ -309,10 +309,10 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedPath = "#so#";
 
-         StringBuilder actualPath = new StringBuilder();
+         StringBuilder actualPath = new();
          foreach ( ICell cell in map.GetCellsAlongLine( 0, 2, 3, 2 ) )
          {
             actualPath.Append( cell.ToString() );
@@ -329,10 +329,10 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedPath = "#os#";
 
-         StringBuilder actualPath = new StringBuilder();
+         StringBuilder actualPath = new();
          foreach ( ICell cell in map.GetCellsAlongLine( 3, 2, 0, 2 ) )
          {
             actualPath.Append( cell.ToString() );
@@ -349,10 +349,10 @@ namespace RogueSharp.Test
                                       #so#
                                       ####";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedPath = "#.o#";
 
-         StringBuilder actualPath = new StringBuilder();
+         StringBuilder actualPath = new();
          foreach ( ICell cell in map.GetCellsAlongLine( 0, 0, 10, 10 ) )
          {
             actualPath.Append( cell.ToString() );
@@ -375,7 +375,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "##########..#####.....##..#..##.#.#.#";
 
          IEnumerable<ICell> cells = map.GetCellsInCircle( 3, 3, 3 )
@@ -404,7 +404,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "########.#.#.#.#";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInCircle( 3, 3, 3 )
@@ -433,7 +433,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "##";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInCircle( 0, 0, 1 )
@@ -462,7 +462,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "#..##......#.";
 
          IEnumerable<ICell> cells = map.GetCellsInDiamond( 3, 3, 2 )
@@ -491,7 +491,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "#.##..#.";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInDiamond( 3, 3, 2 )
@@ -520,7 +520,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "##";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInDiamond( 0, 0, 1 )
@@ -549,7 +549,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "######..###....#..#.##.#.";
 
          IEnumerable<ICell> cells = map.GetCellsInSquare( 3, 3, 2 )
@@ -578,7 +578,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "..#.....##.#";
 
          IEnumerable<ICell> cells = map.GetCellsInRectangle( 2, 2, 4, 3 )
@@ -607,7 +607,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<ICell> cells = map.GetCellsInRectangle( 0, 0, map.Width, map.Height )
             .OrderBy( c => c.Y )
@@ -648,7 +648,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "########.#.##.#.";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInSquare( 3, 3, 2 )
@@ -677,7 +677,7 @@ namespace RogueSharp.Test
                                       ##############..#
                                       #################";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
          string expectedCells = "###";
 
          IEnumerable<ICell> cells = map.GetBorderCellsInSquare( 0, 0, 1 )
@@ -699,7 +699,7 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 0, 0 );
 
@@ -713,7 +713,7 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 2, 2 );
 
@@ -727,7 +727,7 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 1, 1 );
 
@@ -741,7 +741,7 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 0, 0, true );
 
@@ -755,7 +755,7 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 2, 2, true );
 
@@ -769,16 +769,15 @@ namespace RogueSharp.Test
                                       ...
                                       ...";
          IMapCreationStrategy<Map> mapCreationStrategy = new StringDeserializeMapCreationStrategy<Map>( mapRepresentation );
-         IMap map = Map.Create( mapCreationStrategy );
+         Map map = Map.Create( mapCreationStrategy );
 
          IEnumerable<Cell> cells = map.GetAdjacentCells( 1, 1, true );
 
          Assert.AreEqual( 8, cells.Count() );
       }
 
-      private static string RemoveWhiteSpace( string source )
-      {
-         return Regex.Replace( source, @"\s+", string.Empty );
-      }
+      private static string RemoveWhiteSpace( string source ) => MyRegex().Replace( source, string.Empty );
+      [GeneratedRegex( @"\s+" )]
+      private static partial Regex MyRegex();
    }
 }

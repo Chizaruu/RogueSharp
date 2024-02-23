@@ -9,21 +9,18 @@ namespace RogueSharp.Test.Algorithms
    public class DepthFirstPathsTest
    {
       [TestMethod]
-      public void Constructor_WhenGraphIsNull_WillThrowArgumentException()
-      {
-         Assert.ThrowsException<ArgumentException>( () => new DepthFirstPaths( null, 3 ) );
-      }
+      public void Constructor_WhenGraphIsNull_WillThrowArgumentException() => Assert.ThrowsException<ArgumentException>( () => new DepthFirstPaths( null, 3 ) );
 
       [TestMethod]
       public void HasPathTo_WhenPathExistsBetweenVertices_WillReturnTrue()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
          graph.AddEdge( 2, 3 );
          graph.AddEdge( 3, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 3 );
+         DepthFirstPaths paths = new( graph, 3 );
 
          Assert.IsTrue( paths.HasPathTo( 0 ) );
       }
@@ -31,11 +28,11 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void HasPathTo_WhenPathDoesNotExistBetweenVertices_WillReturnFalse()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 0 );
+         DepthFirstPaths paths = new( graph, 0 );
 
          Assert.IsFalse( paths.HasPathTo( 3 ) );
       }
@@ -43,32 +40,35 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void PathTo_WhenPathExistsBetweenVertices_WillReturnVerticesInPath()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
          graph.AddEdge( 2, 3 );
          graph.AddEdge( 3, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 3 );
+         DepthFirstPaths paths = new( graph, 3 );
 
          int[] pathVertices = paths.PathTo( 0 ).ToArray();
 
-         Assert.AreEqual( pathVertices[0], 2 );
-         Assert.AreEqual( pathVertices[1], 1 );
-         Assert.AreEqual( pathVertices[2], 0 );
-         Assert.AreEqual( pathVertices.Length, 3 );
+         Assert.AreEqual( 2, pathVertices[0] );
+         Assert.AreEqual( 1, pathVertices[1] );
+         Assert.AreEqual( 0, pathVertices[2] );
+         Assert.AreEqual( 3, pathVertices.Length );
       }
 
       [TestMethod]
-      public void PathTo_WhenPathDoesNotExistBetweenVertices_WillReturnNull()
+      public void PathTo_WhenPathDoesNotExistBetweenVertices_WillReturnEmptyCollection()
       {
-         Graph graph = new Graph( 5 );
+         Graph graph = new( 5 );
          graph.AddEdge( 0, 1 );
          graph.AddEdge( 1, 2 );
          graph.AddEdge( 1, 4 );
-         DepthFirstPaths paths = new DepthFirstPaths( graph, 0 );
+         DepthFirstPaths paths = new( graph, 0 );
 
-         Assert.IsNull( paths.PathTo( 3 ) );
+         System.Collections.Generic.IEnumerable<int> result = paths.PathTo( 3 );
+
+         Assert.IsNotNull( result ); // Ensure the result is not null
+         Assert.IsFalse( result.Any() ); // Ensure the collection is empty
       }
    }
 }

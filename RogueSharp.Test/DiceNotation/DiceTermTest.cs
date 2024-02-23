@@ -26,12 +26,12 @@ namespace RogueSharp.Test.DiceNotation
       }
 
       [TestMethod]
-      [ExpectedException(typeof (ImpossibleDieException))]
+      [ExpectedException( typeof( ImpossibleDieException ) )]
       public void Constructor_InvalidNumberOfSides_ThrowsImpossibleDieException()
       {
          const int invalidNumberOfSides = -1;
 
-         var dieWithInvalidSides = new DiceTerm( 1, invalidNumberOfSides, 1 );
+         _ = new DiceTerm( 1, invalidNumberOfSides, 1 );
       }
 
       [TestMethod]
@@ -41,7 +41,7 @@ namespace RogueSharp.Test.DiceNotation
          const int multiplicity = 1;
          const int choose = multiplicity + 1;
 
-         var chooseMoreDiceThanRolled = new DiceTerm( multiplicity, 6, choose, 1 );
+         _ = new DiceTerm( multiplicity, 6, choose, 1 );
       }
 
       [TestMethod]
@@ -51,7 +51,7 @@ namespace RogueSharp.Test.DiceNotation
          const int multiplicity = 1;
          const int choose = -1;
 
-         var chooseLessThanAnyDice = new DiceTerm( multiplicity, 6, choose, 1 );
+         _ = new DiceTerm( multiplicity, 6, choose, 1 );
       }
 
       [TestMethod]
@@ -60,7 +60,7 @@ namespace RogueSharp.Test.DiceNotation
       {
          const int invalidMultiplicity = -1;
 
-         var lessThanNoDice = new DiceTerm( invalidMultiplicity, 6, 1 );
+         _ = new DiceTerm( invalidMultiplicity, 6, 1 );
       }
 
       [TestMethod]

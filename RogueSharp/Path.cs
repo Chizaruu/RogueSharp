@@ -14,6 +14,11 @@ namespace RogueSharp
       private LinkedListNode<ICell> _currentStep;
 
       /// <summary>
+      /// A Path that has no steps
+      /// </summary>
+      public static readonly Path Empty;
+
+      /// <summary>
       /// Construct a new Path from the specified ordered list of Cells
       /// </summary>
       /// <param name="steps">An IEnumerable of Cells that represent the ordered steps along this Path from Start to End</param>
@@ -63,12 +68,7 @@ namespace RogueSharp
       /// <exception cref="NoMoreStepsException">Thrown when attempting to move forward along a Path on which we are currently at the End</exception>
       public ICell StepForward()
       {
-         ICell cell = TryStepForward();
-
-         if ( cell == null )
-         {
-            throw new NoMoreStepsException( "Cannot take a step forward when at the end of the path" );
-         }
+         ICell cell = TryStepForward() ?? throw new NoMoreStepsException( "Cannot take a step forward when at the end of the path" );
 
          return cell;
       }
@@ -95,12 +95,7 @@ namespace RogueSharp
       /// <exception cref="NoMoreStepsException">Thrown when attempting to move backward along a Path on which we are currently at the Start</exception>
       public ICell StepBackward()
       {
-         ICell cell = TryStepBackward();
-
-         if ( cell == null )
-         {
-            throw new NoMoreStepsException( "Cannot take a step backward when at the start of the path" );
-         }
+         ICell cell = TryStepBackward() ?? throw new NoMoreStepsException( "Cannot take a step backward when at the start of the path" );
 
          return cell;
       }
@@ -132,6 +127,7 @@ namespace RogueSharp
       public NoMoreStepsException()
       {
       }
+
       /// <summary>
       /// Initializes a new instance of the NoMoreStepsException class with a specified error message.
       /// </summary>
@@ -140,6 +136,7 @@ namespace RogueSharp
          : base( message )
       {
       }
+
       /// <summary>
       /// Initializes a new instance of the NoMoreStepsException class with a specified error message and a reference to the inner exception that is the cause of this exception.
       /// </summary>
@@ -162,6 +159,7 @@ namespace RogueSharp
       public PathNotFoundException()
       {
       }
+
       /// <summary>
       /// Initializes a new instance of the PathNotFoundException class with a specified error message.
       /// </summary>
@@ -170,6 +168,7 @@ namespace RogueSharp
          : base( message )
       {
       }
+
       /// <summary>
       /// Initializes a new instance of the PathNotFoundException class with a specified error message and a reference to the inner exception that is the cause of this exception.
       /// </summary>
@@ -181,4 +180,3 @@ namespace RogueSharp
       }
    }
 }
-

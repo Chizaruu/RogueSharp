@@ -4,17 +4,13 @@ namespace RogueSharp.MapCreation
    /// The BorderOnlyMapCreationStrategy creates a Map of the specified type by making an empty map with only the outermost border being solid walls
    /// </summary>
    /// <typeparam name="TMap">The type of IMap that will be created</typeparam>
-   public class BorderOnlyMapCreationStrategy<TMap> : BorderOnlyMapCreationStrategy<TMap, Cell>, IMapCreationStrategy<TMap> where TMap : IMap<Cell>, new()
+   /// <remarks>
+   /// Constructs a new BorderOnlyMapCreationStrategy with the specified parameters
+   /// </remarks>
+   /// <param name="width">The width of the Map to be created</param>
+   /// <param name="height">The height of the Map to be created</param>
+   public class BorderOnlyMapCreationStrategy<TMap>( int width, int height ) : BorderOnlyMapCreationStrategy<TMap, Cell>( width, height ), IMapCreationStrategy<TMap> where TMap : IMap<Cell>, new()
    {
-      /// <summary>
-      /// Constructs a new BorderOnlyMapCreationStrategy with the specified parameters
-      /// </summary>
-      /// <param name="width">The width of the Map to be created</param>
-      /// <param name="height">The height of the Map to be created</param>
-      public BorderOnlyMapCreationStrategy( int width, int height )
-         : base( width, height )
-      {
-      }
    }
 
    /// <summary>
@@ -22,21 +18,15 @@ namespace RogueSharp.MapCreation
    /// </summary>
    /// <typeparam name="TMap">The type of IMap that will be created</typeparam>
    /// <typeparam name="TCell">The type of ICell that the Map will use</typeparam>
-   public class BorderOnlyMapCreationStrategy<TMap,TCell> : IMapCreationStrategy<TMap,TCell> where TMap : IMap<TCell>, new() where TCell : ICell
+   /// <remarks>
+   /// Constructs a new BorderOnlyMapCreationStrategy with the specified parameters
+   /// </remarks>
+   /// <param name="width">The width of the Map to be created</param>
+   /// <param name="height">The height of the Map to be created</param>
+   public class BorderOnlyMapCreationStrategy<TMap, TCell>( int width, int height ) : IMapCreationStrategy<TMap, TCell> where TMap : IMap<TCell>, new() where TCell : ICell
    {
-      private readonly int _height;
-      private readonly int _width;
-
-      /// <summary>
-      /// Constructs a new BorderOnlyMapCreationStrategy with the specified parameters
-      /// </summary>
-      /// <param name="width">The width of the Map to be created</param>
-      /// <param name="height">The height of the Map to be created</param>
-      public BorderOnlyMapCreationStrategy( int width, int height )
-      {
-         _width = width;
-         _height = height;
-      }
+      private readonly int _height = height;
+      private readonly int _width = width;
 
       /// <summary>
       /// Creates a Map of the specified type by making an empty map with only the outermost border being solid walls

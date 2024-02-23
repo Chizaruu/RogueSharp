@@ -7,19 +7,19 @@ namespace RogueSharp.Test
    [TestClass]
    public class PathTest
    {
-      private readonly List<ICell> _pathFromX1Y1ToX1Y4 = new List<ICell>
-      {
+      private readonly List<ICell> _pathFromX1Y1ToX1Y4 =
+      [
          new Cell( 1, 1, true, true ),
          new Cell( 1, 2, true, true ),
          new Cell( 1, 3, true, true ),
          new Cell( 1, 4, true, true )
-      };
+      ];
 
       [TestMethod]
       [ExpectedException( typeof( ArgumentNullException ) )]
       public void Constructor_Null_ThrowsArgumentNullException()
       {
-         var path = new Path( null );
+         _ = new Path( null );
       }
 
       [TestMethod]
@@ -28,7 +28,7 @@ namespace RogueSharp.Test
       {
          var emptyList = new List<ICell>();
 
-         var path = new Path( emptyList );
+         _ = new Path( emptyList );
       }
 
       [TestMethod]
@@ -119,7 +119,7 @@ namespace RogueSharp.Test
       {
          var path = new Path( _pathFromX1Y1ToX1Y4 );
 
-         ICell previousStep = path.StepBackward();
+         _ = path.StepBackward();
       }
 
       [TestMethod]
@@ -165,7 +165,7 @@ namespace RogueSharp.Test
       {
          var path = new Path( _pathFromX1Y1ToX1Y4 );
          int numberOfSteps = 0;
-         foreach ( var step in path.Steps )
+         foreach ( ICell step in path.Steps )
          {
             numberOfSteps++;
             Assert.AreEqual( numberOfSteps, step.Y );

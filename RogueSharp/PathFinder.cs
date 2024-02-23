@@ -79,14 +79,9 @@ namespace RogueSharp
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell</returns>
       public Path ShortestPath( ICell source, ICell destination )
       {
-         Path shortestPath = TryFindShortestPath( source, destination );
+         Path shortestPath = TryFindShortestPath( source, destination ) ?? throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
 
-         if ( shortestPath == null )
-         {
-            throw new PathNotFoundException( $"Path from ({source.X}, {source.Y}) to ({destination.X}, {destination.Y}) not found" );
-         }
-
-         return shortestPath;
+         return shortestPath != Path.Empty ? shortestPath : Path.Empty;
       }
 
       /// <summary>
@@ -98,24 +93,18 @@ namespace RogueSharp
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell. If no path is found null will be returned</returns>
       public Path TryFindShortestPath( ICell source, ICell destination )
       {
-         if ( source == null )
-         {
-            throw new ArgumentNullException( nameof( source ) );
-         }
+         ArgumentNullException.ThrowIfNull( source );
 
-         if ( destination == null )
-         {
-            throw new ArgumentNullException( nameof( destination ) );
-         }
+         ArgumentNullException.ThrowIfNull( destination );
 
          if ( !source.IsWalkable )
          {
-            return null;
+            return Path.Empty;
          }
 
          if ( !destination.IsWalkable )
          {
-            return null;
+            return Path.Empty;
          }
 
          AStarShortestPath<TCell> aStarShortestPath;
@@ -130,8 +119,14 @@ namespace RogueSharp
          List<TCell> cells = aStarShortestPath.FindPath( (TCell) source, (TCell) destination, _map );
          if ( cells == null )
          {
-            return null;
+            return Path.Empty;
          }
+
+         if ( cells.Count == 0 )
+         {
+            return Path.Empty;
+         }
+
          return new Path( (IEnumerable<ICell>) cells );
       }
    }

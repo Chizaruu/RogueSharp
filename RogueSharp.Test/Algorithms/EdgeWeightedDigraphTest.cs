@@ -11,7 +11,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void NumberOfVertices_WhenConstructingNewGraphWith5Vertices_WillBe5()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          Assert.AreEqual( 5, graph.NumberOfVertices );
       }
@@ -19,7 +19,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void NumberOfEdges_WhenConstructingNewGraphWith5Vertices_WillBe0()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          Assert.AreEqual( 0, graph.NumberOfEdges );
       }
@@ -27,7 +27,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void AddEdge_WhenGraphHad0Edges_WillNowHave1Edge()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
 
@@ -37,7 +37,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void AddEdge_6TimesWhenGraphHad0Edges_WillNowHave6Edges()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
          graph.AddEdge( new DirectedEdge( 1, 3, 1.0 ) );
@@ -52,7 +52,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void AddEdge_WhenEdgeToAddIsNull_WillThrowArgumentNullException()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          Assert.ThrowsException<ArgumentNullException>( () => graph.AddEdge( null ) );
       }
@@ -60,7 +60,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Adjacent_WhenVertexHasNoEdgesToOtherVertices_WillReturn0DirectedEdges()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
 
          Assert.AreEqual( 0, graph.Adjacent( 1 ).Count() );
       }
@@ -68,7 +68,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Adjacent_WhenVertexHas3EdgesToOtherVertices_WillReturn3DirectedEdges()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
          graph.AddEdge( new DirectedEdge( 1, 3, 1.5 ) );
          graph.AddEdge( new DirectedEdge( 1, 4, 1.0 ) );
@@ -84,7 +84,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Edges_WhenGraphHas6Edges_WillReturnAll6DirectedEdges()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
          graph.AddEdge( new DirectedEdge( 0, 2, 2.0 ) );
          graph.AddEdge( new DirectedEdge( 0, 4, 4.0 ) );
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
@@ -102,11 +102,11 @@ namespace RogueSharp.Test.Algorithms
          Assert.AreEqual( "From: 3, To: 4, Weight: 5.5", edges[4].ToString() );
          Assert.AreEqual( "From: 3, To: 0, Weight: 4", edges[5].ToString() );
       }
-      
+
       [TestMethod]
       public void OutDegree_WhenVertexHas3EdgesToOtherVertices_WillBe3()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
          graph.AddEdge( new DirectedEdge( 1, 3, 1.5 ) );
          graph.AddEdge( new DirectedEdge( 1, 4, 1.0 ) );
@@ -117,7 +117,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void ToString_WhenGraphHasMultipleVerticesAndEdges_WillReturnExceptedString()
       {
-         EdgeWeightedDigraph graph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph graph = new( 5 );
          graph.AddEdge( new DirectedEdge( 0, 2, 2.0 ) );
          graph.AddEdge( new DirectedEdge( 0, 4, 4.0 ) );
          graph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );

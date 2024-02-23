@@ -98,10 +98,7 @@ namespace RogueSharp.DiceNotation.Terms
       /// </summary>
       /// <returns>An IEnumerable of TermResult which will have one item per die rolled</returns>
       /// <remarks>Uses DotNetRandom as its RNG</remarks>
-      public IEnumerable<TermResult> GetResults()
-      {
-         return GetResults( Singleton.DefaultRandom );
-      }
+      public IEnumerable<TermResult> GetResults() => GetResults( Singleton.DefaultRandom );
 
       /// <summary>
       /// Returns a string that represents this DiceTerm

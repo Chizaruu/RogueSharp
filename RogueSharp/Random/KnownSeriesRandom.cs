@@ -47,10 +47,7 @@ namespace RogueSharp.Random
       /// Thrown when the Next integer in the series for this generator is not between 0 and the specified maxValue inclusive
       /// </exception>
       /// <returns>The next integer in the series specified upon construction of this class</returns>
-      public int Next( int maxValue )
-      {
-         return Next( 0, maxValue );
-      }
+      public int Next( int maxValue ) => Next( 0, maxValue );
 
       /// <summary>
       /// Return the first integer in the series that was specified when this generator was constructed,
@@ -60,7 +57,7 @@ namespace RogueSharp.Random
       /// <param name="minValue">Inclusive minimum result</param>
       /// <param name="maxValue">Inclusive maximum result</param>
       /// <exception cref="ArgumentOutOfRangeException">
-      /// Thrown when the Next integer in the series for this generator is not between 
+      /// Thrown when the Next integer in the series for this generator is not between
       /// the specified minValue and maxValue inclusive
       /// </exception>
       /// <returns>The next integer in the series specified upon construction of this class</returns>
@@ -84,27 +81,24 @@ namespace RogueSharp.Random
       /// Saves the current state of the number generator
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were
       /// generated the first time after Save was called.
       /// </example>
       /// <returns>A RandomState class representing the current state of this number generator</returns>
-      public RandomState Save()
+      public RandomState Save() => new()
       {
-         return new RandomState
-         {
-            NumberGenerated = _numberGenerated,
-            Seed = _series.ToArray()
-         };
-      }
+         NumberGenerated = _numberGenerated,
+         Seed = [.. _series]
+      };
 
       /// <summary>
       /// Restores the state of the number generator based on the specified state parameter
       /// </summary>
       /// <example>
-      /// If you generated three random numbers and then called Save to store the state and 
+      /// If you generated three random numbers and then called Save to store the state and
       /// followed that up by generating 10 more numbers before calling Restore with the previously saved RandomState
       /// the Restore method should return the generator back to the state when Save was first called.
       /// This means that if you went on to generate 10 more numbers they would be the same 10 numbers that were

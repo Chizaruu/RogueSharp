@@ -17,7 +17,7 @@ namespace RogueSharp.Algorithms
       public AStarShortestPath()
       {
       }
-      
+
       /// <summary>
       /// Construct a new class for computing the shortest path between two Cells on a Map using the A* algorithm
       /// </summary>
@@ -41,30 +41,23 @@ namespace RogueSharp.Algorithms
       public List<TCell> FindPath( TCell source, TCell destination, IMap<TCell> map )
       {
          // OPEN = the set of nodes to be evaluated
-         IndexMinPriorityQueue<PathNode> openNodes = new IndexMinPriorityQueue<PathNode>( map.Height * map.Width );
+         IndexMinPriorityQueue<PathNode> openNodes = new( map.Height * map.Width );
          // CLOSED = the set of nodes already evaluated
          bool[] isNodeClosed = new bool[map.Height * map.Width];
 
          // add the start node to OPEN
-         openNodes.Insert( map.IndexFor( source ), new PathNode
-         {
-            DistanceFromStart = 0,
-            HeuristicDistanceFromEnd = CalculateDistance( source, destination, _diagonalCost ),
-            X = source.X,
-            Y = source.Y,
-            Parent = null
-         } );
+         openNodes.Insert( map.IndexFor( source ), new PathNode( source.X, source.Y, 0, CalculateDistance( source, destination, _diagonalCost ), null ) );
 
-         PathNode currentNode;
          // loop
          while ( true )
          {
             // current = node in OPEN with the lowest f_cost
             if ( openNodes.Size < 1 )
             {
-               return null;
+               return [];
             }
-            currentNode = openNodes.MinKey();
+
+            PathNode currentNode = openNodes.MinKey();
             // remove current from OPEN
             int currentIndex = openNodes.DeleteMin();
             // add current to CLOSED
@@ -74,7 +67,15 @@ namespace RogueSharp.Algorithms
             // if current is the target node the path has been found
             if ( currentCell.Equals( destination ) )
             {
-               break;
+               List<TCell> path = [map.GetCell( currentNode.X, currentNode.Y )];
+               while ( currentNode.Parent != null )
+               {
+                  currentNode = currentNode.Parent;
+                  path.Add( map.GetCell( currentNode.X, currentNode.Y ) );
+               }
+
+               path.Reverse();
+               return path;
             }
 
             // foreach neighbor of the current node
@@ -83,7 +84,7 @@ namespace RogueSharp.Algorithms
             {
                int neighborIndex = map.IndexFor( neighbor );
                // if neighbor is not walkable or neighbor is in CLOSED
-               if ( neighbor.IsWalkable == false || isNodeClosed[neighborIndex] )
+               if ( !neighbor.IsWalkable || isNodeClosed[neighborIndex] )
                {
                   // skip to the next neighbor
                   continue;
@@ -99,40 +100,32 @@ namespace RogueSharp.Algorithms
                   double newDistance = currentNode.DistanceFromStart + 1;
                   if ( newDistance < neighborNode.DistanceFromStart )
                   {
-                     // update neighbor distance
-                     neighborNode.DistanceFromStart = newDistance;
-                     // set parent of neighbor to current
-                     neighborNode.Parent = currentNode;
+                     // Create a new PathNode with updated DistanceFromStart and Parent, then update it in the priority queue
+                     PathNode updatedNeighborNode = neighborNode with
+                     {
+                        DistanceFromStart = newDistance,
+                        Parent = currentNode
+                     };
+                     openNodes.ChangeKey( neighborIndex, updatedNeighborNode );
                   }
+
                }
                else // if neighbor is not in OPEN
                {
-                  // set f_cost of neighbor
-                  // set parent of neighbor to current
-                  PathNode neighborNode = new PathNode
-                  {
-                     DistanceFromStart = currentNode.DistanceFromStart + 1,
-                     HeuristicDistanceFromEnd = CalculateDistance( source, destination, _diagonalCost ),
-                     X = neighbor.X,
-                     Y = neighbor.Y,
-                     Parent = currentNode
-                  };
-                  // add neighbor to OPEN
-                  openNodes.Insert( neighborIndex, neighborNode );
+                  // Create a new PathNode for the neighbor
+                  PathNode newNeighborNode = new(
+                      neighbor.X,
+                      neighbor.Y,
+                      currentNode.DistanceFromStart + 1,
+                      CalculateDistance( neighbor, destination, _diagonalCost ),
+                      currentNode // Set parent to current node during initialization
+                  );
+                  // Add new neighbor to OPEN
+                  openNodes.Insert( neighborIndex, newNeighborNode );
                }
+
             }
          }
-
-         List<TCell> path = new List<TCell>();
-         path.Add( map.GetCell( currentNode.X, currentNode.Y ) );
-         while ( currentNode.Parent != null )
-         {
-            currentNode = currentNode.Parent;
-            path.Add( map.GetCell( currentNode.X, currentNode.Y ) );
-         }
-
-         path.Reverse();
-         return path;
       }
 
       private static double CalculateDistance( TCell source, TCell destination )
@@ -158,40 +151,15 @@ namespace RogueSharp.Algorithms
          return ( dMin * diagonalCost.Value ) + ( dMax - dMin );
       }
 
-      private class PathNode : IComparable<PathNode>
+      // G cost = distance from starting node
+      // H cost = (heuristic) distance from end node
+      private sealed record PathNode( int X
+      , int Y
+      , double DistanceFromStart
+      , double HeuristicDistanceFromEnd
+      , PathNode Parent
+      ) : IComparable<PathNode>
       {
-         public int X
-         {
-            get;
-            set;
-         }
-
-         public int Y
-         {
-            get;
-            set;
-         }
-
-         // G cost = distance from starting node
-         public double DistanceFromStart
-         {
-            get;
-            set;
-         }
-
-         // H cost = (heuristic) distance from end node
-         public double HeuristicDistanceFromEnd
-         {
-            get;
-            set;
-         }
-
-         public PathNode Parent
-         {
-            get;
-            set;
-         }
-
          // F cost = G cost + H cost
          public double Cost => DistanceFromStart + HeuristicDistanceFromEnd;
 

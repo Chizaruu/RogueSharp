@@ -32,7 +32,7 @@ namespace RogueSharp
       void ClearGoals();
 
       /// <summary>
-      /// Add an Obstacle at the specified location. Any paths found must not go through Obstacles
+      /// Add an Obstacle at the specified location. Exists paths found must not go through Obstacles
       /// </summary>
       /// <param name="x">X location of the Obstacle starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Obstacle starting with 0 as the top</param>

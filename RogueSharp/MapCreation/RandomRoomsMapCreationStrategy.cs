@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using RogueSharp.Random;
+using System.Linq;
 
 namespace RogueSharp.MapCreation
 {
@@ -44,7 +45,7 @@ namespace RogueSharp.MapCreation
    /// </summary>
    /// <typeparam name="TMap">The type of IMap that will be created</typeparam>
    /// <typeparam name="TCell">The type of ICell that the Map will use</typeparam>
-   public class RandomRoomsMapCreationStrategy<TMap,TCell> : IMapCreationStrategy<TMap,TCell> where TMap : IMap<TCell>, new() where TCell : ICell
+   public class RandomRoomsMapCreationStrategy<TMap, TCell> : IMapCreationStrategy<TMap, TCell> where TMap : IMap<TCell>, new() where TCell : ICell
    {
       private readonly IRandom _random;
       private readonly int _height;
@@ -116,14 +117,11 @@ namespace RogueSharp.MapCreation
 
             var newRoom = new Rectangle( roomXPosition, roomYPosition, roomWidth, roomHeight );
             bool newRoomIntersects = false;
-            foreach ( Rectangle room in rooms )
+            foreach ( var _ in rooms.Where( room => newRoom.Intersects( room ) ).Select( room => new { } ) )
             {
-               if ( newRoom.Intersects( room ) )
-               {
-                  newRoomIntersects = true;
-                  break;
-               }
+               newRoomIntersects = true;
             }
+
             if ( !newRoomIntersects )
             {
                rooms.Add( newRoom );

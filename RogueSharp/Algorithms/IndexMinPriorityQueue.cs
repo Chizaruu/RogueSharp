@@ -38,20 +38,14 @@ namespace RogueSharp.Algorithms
       /// Is the indexed priority queue empty?
       /// </summary>
       /// <returns>True if the indexed priority queue is empty, false otherwise</returns>
-      public bool IsEmpty()
-      {
-         return Size == 0;
-      }
+      public bool IsEmpty() => Size == 0;
 
       /// <summary>
       /// Is the specified parameter i an index on the priority queue?
       /// </summary>
       /// <param name="i">An index to check for on the priority queue</param>
       /// <returns>True if the specified parameter i is an index on the priority queue, false otherwise</returns>
-      public bool Contains( int i )
-      {
-         return _qp[i] != -1;
-      }
+      public bool Contains( int i ) => _qp[i] != -1;
 
       /// <summary>
       /// Associates the specified key with the specified index
@@ -71,19 +65,13 @@ namespace RogueSharp.Algorithms
       /// Returns an index associated with a minimum key
       /// </summary>
       /// <returns>An index associated with a minimum key</returns>
-      public int MinIndex()
-      {
-         return _pq[1];
-      }
+      public int MinIndex() => _pq[1];
 
       /// <summary>
       /// Returns a minimum key
       /// </summary>
       /// <returns>A minimum key</returns>
-      public T MinKey()
-      {
-         return _keys[_pq[1]];
-      }
+      public T MinKey() => _keys[_pq[1]];
 
       /// <summary>
       /// Removes a minimum key and returns its associated index
@@ -95,7 +83,7 @@ namespace RogueSharp.Algorithms
          Exchange( 1, Size-- );
          Sink( 1 );
          _qp[min] = -1;
-         _keys[_pq[Size + 1]] = default( T );
+         _keys[_pq[Size + 1]] = default;
          _pq[Size + 1] = -1;
          return min;
       }
@@ -105,10 +93,7 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="index">The index of the key to return</param>
       /// <returns>The key associated with the specified index</returns>
-      public T KeyAt( int index )
-      {
-         return _keys[index];
-      }
+      public T KeyAt( int index ) => _keys[index];
 
       /// <summary>
       /// Change the key associated with the specified index to the specified value
@@ -154,14 +139,11 @@ namespace RogueSharp.Algorithms
          Exchange( i, Size-- );
          Swim( i );
          Sink( i );
-         _keys[index] = default( T );
+         _keys[index] = default;
          _qp[index] = -1;
       }
 
-      private bool Greater( int i, int j )
-      {
-         return _keys[_pq[i]].CompareTo( _keys[_pq[j]] ) > 0;
-      }
+      private bool Greater( int i, int j ) => _keys[_pq[i]].CompareTo( _keys[_pq[j]] ) > 0;
 
       private void Exchange( int i, int j )
       {
@@ -177,7 +159,7 @@ namespace RogueSharp.Algorithms
          while ( k > 1 && Greater( k / 2, k ) )
          {
             Exchange( k, k / 2 );
-            k = k / 2;
+            k /= 2;
          }
       }
 

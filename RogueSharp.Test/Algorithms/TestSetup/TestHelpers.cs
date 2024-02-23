@@ -10,10 +10,10 @@ namespace RogueSharp.Test.Algorithms.TestSetup
       {
          EdgeWeightedDigraph graph;
 
-         using ( StreamReader sr = new StreamReader( path ) )
+         using ( StreamReader sr = new( path ) )
          {
-            int vertices = Int32.Parse( sr.ReadLine() );
-            int edges = Int32.Parse( sr.ReadLine() );
+            int vertices = int.Parse( sr.ReadLine() );
+            int edges = int.Parse( sr.ReadLine() );
 
             graph = new EdgeWeightedDigraph( vertices );
 

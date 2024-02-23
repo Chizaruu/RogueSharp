@@ -10,15 +10,12 @@ namespace RogueSharp.Test.Algorithms
    public class DijkstraShortestPathTest
    {
       [TestMethod]
-      public void Constructor_WhenGraphIsNull_WillThrowArgumentNullException()
-      {
-         Assert.ThrowsException<ArgumentNullException>( () => new DijkstraShortestPath( null, 0 ) );
-      }
+      public void Constructor_WhenGraphIsNull_WillThrowArgumentNullException() => Assert.ThrowsException<ArgumentNullException>( () => new DijkstraShortestPath( null, 0 ) );
 
       [TestMethod]
       public void Constructor_WhenGraphHasEdgesWithNegativeWeights_WillThrowArgumentOutOfRangeException()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 2 );
+         EdgeWeightedDigraph digraph = new( 2 );
          digraph.AddEdge( new DirectedEdge( 0, 1, -1.5 ) );
 
          Assert.ThrowsException<ArgumentOutOfRangeException>( () => new DijkstraShortestPath( digraph, 0 ) );
@@ -27,12 +24,12 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void HasPathTo_WhenPathExistsBetween0And4_WillBeTrue()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 0 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          Assert.IsTrue( dijkstra.HasPathTo( 4 ) );
       }
@@ -40,12 +37,12 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void HasPathTo_WhenPathDoesNotExistBetween4And0_WillBeFalse()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 4 );
+         DijkstraShortestPath dijkstra = new( digraph, 4 );
 
          Assert.IsFalse( dijkstra.HasPathTo( 0 ) );
       }
@@ -53,12 +50,12 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void DistanceTo_WhenPathExistsBetween0And4_WillBeSumOfWeightsInPath()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 0 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          Assert.AreEqual( 9, dijkstra.DistanceTo( 4 ) );
       }
@@ -66,13 +63,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void DistanceTo_WhenMultiplePathsExistBetween0And4_WillBeSumOfWeightsInShortestPath()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 0 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          Assert.AreEqual( 7.25, dijkstra.DistanceTo( 4 ) );
       }
@@ -80,13 +77,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void DistanceTo_WhenNoPathExists_WillBePositiveInfinity()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 4 );
+         DijkstraShortestPath dijkstra = new( digraph, 4 );
 
          Assert.AreEqual( double.PositiveInfinity, dijkstra.DistanceTo( 0 ) );
       }
@@ -94,13 +91,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void PathTo_WhenMultiplePathsExistBetween0And4_WillBeShortestPath()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 0 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          DirectedEdge[] path = dijkstra.PathTo( 4 ).ToArray();
 
@@ -112,13 +109,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void PathTo_WhenNoPathExists_WillBeNull()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 4 );
+         DijkstraShortestPath dijkstra = new( digraph, 4 );
 
          IEnumerable<DirectedEdge> path = dijkstra.PathTo( 0 );
 
@@ -137,10 +134,10 @@ namespace RogueSharp.Test.Algorithms
 
          for ( int i = 0; i < graph.NumberOfVertices; i++ )
          {
-            DijkstraShortestPath dsp = new DijkstraShortestPath( graph, i );
+            DijkstraShortestPath dsp = new( graph, i );
             for ( int j = 0; j < graph.NumberOfVertices; j++ )
             {
-               var dspPath = dsp.PathTo( j );
+               IEnumerable<DirectedEdge> dspPath = dsp.PathTo( j );
                int length = dspPath.Count();
                if ( length > longestPathLength )
                {
@@ -172,7 +169,7 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void FindPath_WhenMultiplePathsExistBetween0And4_WillBeShortestPath()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
@@ -187,9 +184,9 @@ namespace RogueSharp.Test.Algorithms
       }
 
       [TestMethod]
-      public void FindPath_WhenNoPathExists_WillBeNull()
+      public void FindPath_WhenNoPathExists_WillBeEmpty()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
@@ -204,13 +201,13 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Check_WhenGivenValidGraph_WillBeTrue()
       {
-         EdgeWeightedDigraph digraph = new EdgeWeightedDigraph( 5 );
+         EdgeWeightedDigraph digraph = new( 5 );
          digraph.AddEdge( new DirectedEdge( 0, 1, 2.5 ) );
          digraph.AddEdge( new DirectedEdge( 1, 2, 3.25 ) );
          digraph.AddEdge( new DirectedEdge( 1, 4, 4.75 ) );
          digraph.AddEdge( new DirectedEdge( 2, 3, 1.25 ) );
          digraph.AddEdge( new DirectedEdge( 3, 4, 2 ) );
-         DijkstraShortestPath dijkstra = new DijkstraShortestPath( digraph, 0 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          Assert.IsTrue( dijkstra.Check( digraph, 0 ) );
       }

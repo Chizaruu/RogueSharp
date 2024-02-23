@@ -11,7 +11,7 @@
       public Cell()
       {
       }
-      
+
       /// <summary>
       /// Construct a new unexplored Cell located at the specified x and y location with the specified properties
       /// </summary>
@@ -56,7 +56,7 @@
       /// A Cell representing a solid stone wall would not be walkable
       /// </example>
       public bool IsWalkable { get; set; }
-      
+
       /// <summary>
       /// Provides a simple visual representation of the Cell using the following symbols:
       /// - `.`: `Cell` is transparent and walkable
@@ -131,10 +131,7 @@
       /// <param name="left">Cell on the left side of the equal sign</param>
       /// <param name="right">Cell on the right side of the equal sign</param>
       /// <returns>True if a and b are equal; False otherwise</returns>
-      public static bool operator ==( Cell left, Cell right )
-      {
-         return Equals( left, right );
-      }
+      public static bool operator ==( Cell left, Cell right ) => Equals( left, right );
 
       /// <summary>
       /// Determines whether two Cell instances are not equal
@@ -142,26 +139,16 @@
       /// <param name="left">Cell on the left side of the equal sign</param>
       /// <param name="right">Cell on the right side of the equal sign</param>
       /// <returns>True if a and b are not equal; False otherwise</returns>
-      public static bool operator !=( Cell left, Cell right )
-      {
-         return !Equals( left, right );
-      }
+      public static bool operator !=( Cell left, Cell right ) => !Equals( left, right );
 
       /// <summary>
       /// Gets the hash code for this object which can help for quick checks of equality
-      /// or when inserting this Cell into a hash-based collection such as a Dictionary or Hashtable 
+      /// or when inserting this Cell into a hash-based collection such as a Dictionary or Hashtable
       /// </summary>
       /// <returns>An integer hash used to identify this Cell</returns>
       public override int GetHashCode()
       {
-         unchecked
-         {
-            var hashCode = X;
-            hashCode = ( hashCode * 397 ) ^ Y;
-            hashCode = ( hashCode * 397 ) ^ IsTransparent.GetHashCode();
-            hashCode = ( hashCode * 397 ) ^ IsWalkable.GetHashCode();
-            return hashCode;
-         }
+         return System.HashCode.Combine( X, Y, IsTransparent, IsWalkable );
       }
    }
 }

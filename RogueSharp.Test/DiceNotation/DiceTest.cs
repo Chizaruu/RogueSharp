@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RogueSharp.DiceNotation;
 
 namespace RogueSharp.Test.DiceNotation

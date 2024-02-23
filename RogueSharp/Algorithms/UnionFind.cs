@@ -65,10 +65,7 @@ namespace RogueSharp.Algorithms
       /// <param name="p">An integer representing one site</param>
       /// <param name="q">An integer representing the other site</param>
       /// <returns>true if the two sites p and q are in the same component; false otherwise</returns>
-      public bool Connected( int p, int q )
-      {
-         return Find( p ) == Find( q );
-      }
+      public bool Connected( int p, int q ) => Find( p ) == Find( q );
 
       /// <summary>
       /// Merges the component containing site p with the component containing site q

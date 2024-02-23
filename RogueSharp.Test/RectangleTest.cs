@@ -13,7 +13,7 @@ namespace RogueSharp.Test
          int width = 15;
          int height = 8;
 
-         Rectangle rectangle = new Rectangle( x, y, width, height );
+         Rectangle rectangle = new( x, y, width, height );
 
          Assert.AreEqual( x, rectangle.X );
          Assert.AreEqual( y, rectangle.Y );
@@ -28,10 +28,10 @@ namespace RogueSharp.Test
          int y = 5;
          int width = 15;
          int height = 8;
-         Point location = new Point( x, y );
-         Point size = new Point( width, height );
+         Point location = new( x, y );
+         Point size = new( width, height );
 
-         Rectangle rectangle = new Rectangle( location, size );
+         Rectangle rectangle = new( location, size );
 
          Assert.AreEqual( x, rectangle.X );
          Assert.AreEqual( y, rectangle.Y );
@@ -55,7 +55,7 @@ namespace RogueSharp.Test
       {
          int x = 0;
 
-         Rectangle rectangle = new Rectangle( x, 1, 10, 10 );
+         Rectangle rectangle = new( x, 1, 10, 10 );
 
          Assert.AreEqual( x, rectangle.Left );
       }
@@ -66,7 +66,7 @@ namespace RogueSharp.Test
          int x = 0;
          int width = 5;
 
-         Rectangle rectangle = new Rectangle( x, 1, width, 10 );
+         Rectangle rectangle = new( x, 1, width, 10 );
 
          Assert.AreEqual( width, rectangle.Right );
       }
@@ -76,7 +76,7 @@ namespace RogueSharp.Test
       {
          int y = 0;
 
-         Rectangle rectangle = new Rectangle( 1, y, 10, 10 );
+         Rectangle rectangle = new( 1, y, 10, 10 );
 
          Assert.AreEqual( y, rectangle.Top );
       }
@@ -87,7 +87,7 @@ namespace RogueSharp.Test
          int y = 0;
          int height = 5;
 
-         Rectangle rectangle = new Rectangle( 1, y, 10, height );
+         Rectangle rectangle = new( 1, y, 10, height );
 
          Assert.AreEqual( height, rectangle.Bottom );
       }
@@ -95,9 +95,9 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Location_GetWhenRectangleAtX10Y15_ReturnsPointX10Y15()
       {
-         Point location = new Point( 10, 15 );
+         Point location = new( 10, 15 );
 
-         Rectangle rectangle = new Rectangle( location, new Point( 3, 5 ) );
+         Rectangle rectangle = new( location, new Point( 3, 5 ) );
 
          Assert.AreEqual( location, rectangle.Location );
       }
@@ -110,7 +110,7 @@ namespace RogueSharp.Test
          Rectangle rectangle = Rectangle.Empty;
 
          rectangle.Location = new Point( x, y );
-         
+
          Assert.AreEqual( x, rectangle.X );
          Assert.AreEqual( y, rectangle.Y );
       }
@@ -118,9 +118,9 @@ namespace RogueSharp.Test
       [TestMethod]
       public void Center_WhenRectangleAtX0Y0Width10Height10_ReturnsPointX5Y5()
       {
-         Point center = new Point( 5, 5 );
+         Point center = new( 5, 5 );
 
-         Rectangle rectangle = new Rectangle( 0, 0, 10, 10 );
+         Rectangle rectangle = new( 0, 0, 10, 10 );
 
          Assert.AreEqual( center, rectangle.Center );
       }
@@ -128,7 +128,7 @@ namespace RogueSharp.Test
       [TestMethod]
       public void IsEmpty_WhenAllRectangleValuesAre0_ReturnsTrue()
       {
-         Rectangle rectangle = new Rectangle( 0, 0, 0, 0 );
+         Rectangle rectangle = new( 0, 0, 0, 0 );
 
          Assert.IsTrue( rectangle.IsEmpty );
          Assert.AreEqual( Rectangle.Empty, rectangle );

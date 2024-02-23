@@ -15,9 +15,9 @@ namespace RogueSharp.Test.DiceNotation
              .Die( 8 )
              .Dice( 4, 6, 1, 3 );
          const int expectedNumberOfTerms = 1 + 1 + 3;
-         
+
          DiceResult result = diceExpression.Roll( new DotNetRandom() );
-         
+
          Assert.AreEqual( expectedNumberOfTerms, result.Results.Count );
       }
 

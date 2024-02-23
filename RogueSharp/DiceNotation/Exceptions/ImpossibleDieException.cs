@@ -7,7 +7,6 @@ namespace RogueSharp.DiceNotation.Exceptions
    /// </summary>
    public class ImpossibleDieException : Exception
    {
-
       /// <summary>
       /// Initializes a new instance of the ImpossibleDieException class.
       /// </summary>
