@@ -12,7 +12,7 @@ namespace RogueSharp.Algorithms
    /// <seealso href="http://algs4.cs.princeton.edu/44sp/EdgeWeightedDigraph.java.html">EdgeWeightedDigraph class from Princeton University's Java Algorithms</seealso>
    public class EdgeWeightedDigraph
    {
-      private readonly LinkedList<DirectedEdge>[] _adjacent;
+      private readonly List<DirectedEdge>[] _adjacent;
 
       /// <summary>
       /// Constructs an empty edge-weighted digraph with the specified number of vertices and 0 edges
@@ -20,19 +20,19 @@ namespace RogueSharp.Algorithms
       /// <param name="vertices">Number of vertices in the Graph</param>
       public EdgeWeightedDigraph( int vertices )
       {
-         NumberOfVertices = vertices;
+         NumberOfVertices = vertices > 0 ? vertices : throw new ArgumentOutOfRangeException( nameof( vertices ), "Number of vertices must be positive" );
          NumberOfEdges = 0;
-         _adjacent = new LinkedList<DirectedEdge>[NumberOfVertices];
-         for ( int v = 0; v < NumberOfVertices; v++ )
+         _adjacent = new List<DirectedEdge>[vertices];
+         for ( int v = 0; v < vertices; v++ )
          {
-            _adjacent[v] = new LinkedList<DirectedEdge>();
+            _adjacent[v] = [];
          }
       }
 
       /// <summary>
       /// The number of vertices in the edge-weighted digraph
       /// </summary>
-      public int NumberOfVertices { get; private set; }
+      public int NumberOfVertices { get; }
 
       /// <summary>
       /// The number of edges in the edge-weighted digraph
@@ -57,7 +57,7 @@ namespace RogueSharp.Algorithms
             throw new ArgumentOutOfRangeException( nameof( edge ), "Edge weight cannot be negative" );
          }
 
-         _adjacent[edge.From].AddLast( edge );
+         _adjacent[edge.From].Add( edge );
          NumberOfEdges++;
       }
 
