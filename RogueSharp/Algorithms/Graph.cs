@@ -11,7 +11,7 @@ namespace RogueSharp.Algorithms
    /// <seealso href="http://algs4.cs.princeton.edu/41undirected/Graph.java.html">Graph class from Princeton University's Java Algorithms</seealso>
    public class Graph
    {
-      private readonly LinkedList<int>[] _adjacent;
+      private readonly List<int>[] _adjacent;
 
       /// <summary>
       /// Constructs a new Graph containing the specified number of vertices and 0 edges
@@ -21,10 +21,10 @@ namespace RogueSharp.Algorithms
       {
          NumberOfVertices = vertices;
          NumberOfEdges = 0;
-         _adjacent = new LinkedList<int>[vertices];
+         _adjacent = new List<int>[vertices];
          for ( int v = 0; v < vertices; v++ )
          {
-            _adjacent[v] = new LinkedList<int>();
+            _adjacent[v] = [];
          }
       }
 
@@ -46,8 +46,11 @@ namespace RogueSharp.Algorithms
       public void AddEdge( int vertexSource, int vertexDestination )
       {
          NumberOfEdges++;
-         _adjacent[vertexSource].AddLast( vertexDestination );
-         _adjacent[vertexDestination].AddLast( vertexSource );
+         _adjacent[vertexSource] ??= [];
+         _adjacent[vertexDestination] ??= [];
+
+         _adjacent[vertexSource].Add( vertexDestination );
+         _adjacent[vertexDestination].Add( vertexSource );
       }
 
       /// <summary>

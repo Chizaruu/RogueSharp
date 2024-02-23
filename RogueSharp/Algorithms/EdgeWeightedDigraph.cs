@@ -44,11 +44,17 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="edge">The DirectedEdge to add</param>
       /// <exception cref="ArgumentNullException">DirectedEdge cannot be null</exception>
+      /// <exception cref="ArgumentOutOfRangeException">Throws an ArgumentOutOfRangeException if an edge weight is negative</exception>
       public void AddEdge( DirectedEdge edge )
       {
          if ( edge == null )
          {
             throw new ArgumentNullException( nameof( edge ), "DirectedEdge cannot be null" );
+         }
+
+         if ( edge.Weight < 0 )
+         {
+            throw new ArgumentOutOfRangeException( nameof( edge ), "Edge weight cannot be negative" );
          }
 
          _adjacent[edge.From].AddLast( edge );

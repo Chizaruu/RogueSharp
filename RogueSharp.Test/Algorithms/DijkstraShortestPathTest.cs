@@ -15,10 +15,21 @@ namespace RogueSharp.Test.Algorithms
       [TestMethod]
       public void Constructor_WhenGraphHasEdgesWithNegativeWeights_WillThrowArgumentOutOfRangeException()
       {
-         EdgeWeightedDigraph digraph = new( 2 );
-         digraph.AddEdge( new DirectedEdge( 0, 1, -1.5 ) );
+         Assert.ThrowsException<ArgumentOutOfRangeException>( () =>
+         {
+            EdgeWeightedDigraph digraph = new( 2 );
+            digraph.AddEdge( new DirectedEdge( 0, 1, -1.5 ) );
+            _ = new DijkstraShortestPath( digraph, 0 );
+         } );
+      }
 
-         Assert.ThrowsException<ArgumentOutOfRangeException>( () => new DijkstraShortestPath( digraph, 0 ) );
+      [TestMethod]
+      public void DistanceTo_WhenGraphHasSingleVertex_ReturnsZeroToItself()
+      {
+         EdgeWeightedDigraph digraph = new( 1 );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
+
+         Assert.AreEqual( 0.0, dijkstra.DistanceTo( 0 ) );
       }
 
       [TestMethod]
@@ -210,6 +221,61 @@ namespace RogueSharp.Test.Algorithms
          DijkstraShortestPath dijkstra = new( digraph, 0 );
 
          Assert.IsTrue( dijkstra.Check( digraph, 0 ) );
+      }
+
+      [TestMethod]
+      public void HasPathTo_WhenDestinationIsInDisconnectedComponent_ReturnsFalse()
+      {
+         EdgeWeightedDigraph digraph = new( 4 );
+         digraph.AddEdge( new DirectedEdge( 0, 1, 1.0 ) );
+         // Component 2 is disconnected from component 1
+         digraph.AddEdge( new DirectedEdge( 2, 3, 1.0 ) );
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
+
+         Assert.IsFalse( dijkstra.HasPathTo( 3 ) );
+      }
+
+      [TestMethod]
+      public void DistanceTo_WhenGraphContainsCycles_ReturnsCorrectShortestDistance()
+      {
+         EdgeWeightedDigraph digraph = new( 3 );
+         digraph.AddEdge( new DirectedEdge( 0, 1, 1.0 ) );
+         digraph.AddEdge( new DirectedEdge( 1, 2, 2.0 ) );
+         digraph.AddEdge( new DirectedEdge( 2, 0, 3.0 ) ); // Creates a cycle
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
+
+         Assert.AreEqual( 3.0, dijkstra.DistanceTo( 2 ) );
+      }
+
+      [TestMethod]
+      public void DistanceTo_LargeGraphWithSparseConnections_ReturnsCorrectDistance()
+      {
+         int vertexCount = 1000; // Large number of vertices
+         EdgeWeightedDigraph digraph = new( vertexCount );
+         // Sparse connections
+         for ( int i = 0; i < vertexCount - 1; i++ )
+         {
+            digraph.AddEdge( new DirectedEdge( i, i + 1, 1.0 ) );
+         }
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
+
+         Assert.AreEqual( vertexCount - 1, dijkstra.DistanceTo( vertexCount - 1 ) );
+      }
+
+      [TestMethod]
+      public void PathTo_CorrectlyReconstructsTheShortestPath()
+      {
+         EdgeWeightedDigraph digraph = new( 3 );
+         digraph.AddEdge( new DirectedEdge( 0, 1, 1.0 ) );
+         digraph.AddEdge( new DirectedEdge( 1, 2, 1.0 ) );
+         digraph.AddEdge( new DirectedEdge( 0, 2, 3.0 ) ); // Longer direct path
+         DijkstraShortestPath dijkstra = new( digraph, 0 );
+
+         DirectedEdge[] path = dijkstra.PathTo( 2 ).ToArray();
+
+         Assert.AreEqual( 2, path.Length ); // Shortest path goes through vertex 1
+         Assert.AreEqual( 1, path[0].To );
+         Assert.AreEqual( 2, path[1].To );
       }
    }
 }

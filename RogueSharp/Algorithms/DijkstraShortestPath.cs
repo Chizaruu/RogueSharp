@@ -19,11 +19,29 @@ namespace RogueSharp.Algorithms
       /// </summary>
       /// <param name="graph">The edge-weighted directed graph</param>
       /// <param name="sourceVertex">The source vertex to compute the shortest paths tree from</param>
-      /// <exception cref="ArgumentOutOfRangeException">Throws an ArgumentOutOfRangeException if an edge weight is negative</exception>
       /// <exception cref="ArgumentNullException">Thrown if EdgeWeightedDigraph is null</exception>
       public DijkstraShortestPath( EdgeWeightedDigraph graph, int sourceVertex )
-         : this( graph, sourceVertex, null )
       {
+         if ( graph == null )
+         {
+            throw new ArgumentNullException( nameof( graph ), "EdgeWeightedDigraph cannot be null" );
+         }
+
+         _distanceTo = new double[graph.NumberOfVertices];
+         _edgeTo = new DirectedEdge[graph.NumberOfVertices];
+         Array.Fill( _distanceTo, double.PositiveInfinity );
+         _distanceTo[sourceVertex] = 0.0;
+
+         _priorityQueue = new IndexMinPriorityQueue<double>( graph.NumberOfVertices );
+         _priorityQueue.Insert( sourceVertex, 0.0 );
+         while ( !_priorityQueue.IsEmpty() )
+         {
+            int v = _priorityQueue.DeleteMin();
+            foreach ( DirectedEdge edge in graph.Adjacent( v ) )
+            {
+               Relax( edge );
+            }
+         }
       }
 
       private DijkstraShortestPath( EdgeWeightedDigraph graph, int sourceVertex, int? destinationVertex )
@@ -84,8 +102,7 @@ namespace RogueSharp.Algorithms
 
       private void Relax( DirectedEdge edge )
       {
-         int v = edge.From;
-         int w = edge.To;
+         int v = edge.From, w = edge.To;
          if ( _distanceTo[w] > _distanceTo[v] + edge.Weight )
          {
             _distanceTo[w] = _distanceTo[v] + edge.Weight;
@@ -124,12 +141,13 @@ namespace RogueSharp.Algorithms
       {
          if ( !HasPathTo( destinationVertex ) )
          {
-            return null;
+            return null; // Consider using an empty list or special value for no path
          }
-         var path = new Stack<DirectedEdge>();
-         for ( DirectedEdge edge = _edgeTo[destinationVertex]; edge != null; edge = _edgeTo[edge.From] )
+
+         Stack<DirectedEdge> path = new();
+         for ( DirectedEdge e = _edgeTo[destinationVertex]; e != null; e = _edgeTo[e.From] )
          {
-            path.Push( edge );
+            path.Push( e );
          }
          return path;
       }
